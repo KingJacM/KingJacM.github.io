@@ -1,23 +1,868 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/shared.css">
-    <title>Gym Programme</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>脊柱侧弯增肌指南 v4</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+:root{--bg:#07070c;--s1:#0f0f18;--s2:#171724;--s3:#1e1e30;--bd:#282840;--tx:#e2e2ef;--dm:#7a7a96;--ac:#4ecdc4;--r:#ff6b6b;--y:#ffd93d;--p:#7c6cf0;--o:#ff9f43;--g:#2ecc71}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans SC',sans-serif;background:var(--bg);color:var(--tx);line-height:1.75;-webkit-text-size-adjust:100%}
+/* hero */
+.hero{padding:52px 20px 36px;text-align:center;background:linear-gradient(180deg,#12122a,var(--bg));border-bottom:1px solid var(--bd)}
+.hero h1{font-size:clamp(20px,5vw,30px);font-weight:900}.hero h1 em{font-style:normal;color:var(--ac)}
+.hero .sub{font-size:11px;color:var(--dm);margin-top:4px}
+.hero .ver{font-size:10px;color:var(--y);margin-top:6px;font-weight:700;letter-spacing:.5px}
+.brow{display:flex;justify-content:center;gap:6px;margin-top:14px;flex-wrap:wrap}
+.b{padding:3px 10px;border-radius:14px;font-size:9px;font-weight:700}
+.b.t{background:rgba(78,205,196,.1);color:var(--ac);border:1px solid rgba(78,205,196,.18)}
+.b.r{background:rgba(255,107,107,.1);color:var(--r);border:1px solid rgba(255,107,107,.18)}
+.b.y{background:rgba(255,217,61,.1);color:var(--y);border:1px solid rgba(255,217,61,.18)}
+/* nav */
+.nav{display:flex;overflow-x:auto;background:var(--s1);border-radius:10px;padding:3px;margin:18px auto;max-width:760px;gap:2px;-webkit-overflow-scrolling:touch}
+.nav::-webkit-scrollbar{display:none}
+.nb{flex-shrink:0;padding:7px 11px;border:none;background:0;color:var(--dm);font-family:inherit;font-size:10px;font-weight:600;cursor:pointer;border-radius:7px;transition:.15s;white-space:nowrap}
+.nb:hover{color:var(--tx)}.nb.on{background:var(--ac);color:var(--bg)}
+.tp{display:none}.tp.on{display:block}
+.ct{max-width:760px;margin:0 auto;padding:0 12px}
+/* card */
+.cd{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:14px}
+.cd h2{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.cd h3{font-size:13px;font-weight:600;color:var(--ac);margin:14px 0 6px}
+.cd p,.cd li{font-size:12px;color:var(--dm);line-height:1.8}
+.cd ul{padding-left:18px}.cd li{margin-bottom:4px}
+/* exercise */
+.ex{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:10px}
+.ex:hover{border-color:rgba(78,205,196,.25)}
+.et{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.en{font-size:13px;font-weight:700;color:var(--tx)}
+.er{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ac);white-space:nowrap;flex-shrink:0}
+.em{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap}
+.mp{font-size:8px;padding:2px 6px;border-radius:4px;font-weight:700}
+.mp.rest{background:rgba(255,159,67,.1);color:var(--o)}
+.mp.tempo{background:rgba(124,108,240,.1);color:var(--p)}
+.mp.tag{background:rgba(78,205,196,.08);color:var(--ac)}
+.mp.rpe{background:rgba(46,204,113,.1);color:var(--g)}
+.mp.warn{background:rgba(255,107,107,.08);color:var(--r)}
+.eh{margin-top:8px;font-size:11px;color:var(--dm);line-height:1.75}
+.eh strong{color:var(--tx);font-weight:600}
+.cue{margin-top:6px;padding:8px 10px;background:rgba(78,205,196,.04);border-radius:6px;font-size:11px;color:var(--dm);line-height:1.7;border-left:2px solid var(--ac)}
+.stop{margin-top:6px;padding:8px 10px;background:rgba(255,107,107,.04);border-radius:6px;font-size:11px;color:var(--dm);line-height:1.7;border-left:2px solid var(--r)}
+.therapist{margin-top:6px;padding:8px 10px;background:rgba(124,108,240,.04);border-radius:6px;font-size:11px;color:var(--dm);line-height:1.7;border-left:2px solid var(--p)}
+/* callout */
+.co{padding:14px;border-radius:8px;margin:10px 0;font-size:11px;line-height:1.7}
+.co.i{background:rgba(78,205,196,.05);border-left:3px solid var(--ac)}
+.co.w{background:rgba(255,107,107,.05);border-left:3px solid var(--r)}
+.co.t{background:rgba(255,217,61,.05);border-left:3px solid var(--y)}
+.co.f{background:rgba(124,108,240,.05);border-left:3px solid var(--p)}
+.co strong{color:var(--tx)}
+/* phase pill */
+.ph{display:inline-block;padding:3px 10px;border-radius:5px;font-size:9px;font-weight:700;margin-bottom:8px}
+.ph.p1{background:rgba(78,205,196,.1);color:var(--ac)}
+.ph.p2{background:rgba(124,108,240,.1);color:var(--p)}
+.ph.p3{background:rgba(255,159,67,.1);color:var(--o)}
+/* section divider */
+.sd{font-size:10px;font-weight:700;padding:6px 0 2px;letter-spacing:.5px}
+.sd.warm{color:var(--y)}.sd.work{color:var(--ac)}.sd.core{color:var(--p)}.sd.cool{color:var(--dm)}
+/* day accordion */
+.dh{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--s2);border:1px solid var(--bd);border-radius:10px;cursor:pointer;transition:.15s;user-select:none;margin-bottom:6px}
+.dh:hover{border-color:var(--ac)}
+.dh h3{margin:0;font-size:13px;font-weight:700;color:var(--tx)}
+.dh .ft{font-size:10px;color:var(--ac)}
+.dh .ch{transition:transform .15s;color:var(--dm);font-size:14px}
+.dh.op .ch{transform:rotate(180deg)}
+.de{display:none;padding:4px 0 0}.de.op{display:block}
+/* img ref */
+.imgref{display:flex;gap:8px;margin:8px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.imgref::-webkit-scrollbar{display:none}
+.imgref img{height:120px;border-radius:6px;border:1px solid var(--bd);flex-shrink:0}
+/* table */
+.stbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:11px}
+.stbl th{text-align:left;padding:8px;font-weight:600;font-size:10px;color:var(--dm);border-bottom:1px solid var(--bd)}
+.stbl td{padding:8px;border-bottom:1px solid rgba(255,255,255,.03);color:var(--dm)}
+.stbl .av{color:var(--r);font-weight:500}.stbl .sf{color:var(--ac);font-weight:500}
+/* footer */
+.foot{text-align:center;padding:28px 16px;color:var(--dm);font-size:9px;border-top:1px solid var(--bd);margin-top:28px}
+@media(max-width:420px){.et{flex-direction:column;gap:3px}.er{align-self:flex-start}}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Gym Programme</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Weekly Schedule</h2>
-            <p>Details about the gym programme.</p>
-        </section>
-    </main>
-    <footer>
-        <p>© 2026 Gym Programme</p>
-    </footer>
+
+<div class="hero">
+  <h1>脊柱侧弯<em>增肌指南</em></h1>
+  <div class="sub">综合两份AI方案 + 治疗师面诊反馈 · 循证保守 · 可带去健身房</div>
+  <div class="ver">最终版 v4.0 · 12周 · 3阶段</div>
+  <div class="brow">
+    <span class="b t">Cobb ~30°</span>
+    <span class="b r">左腰弯主弯 · 胸椎代偿</span>
+    <span class="b y">Risser 5 · 骨骼成熟</span>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nb on" data-t="overview">总览</button>
+  <button class="nb" data-t="warmup">热身</button>
+  <button class="nb" data-t="p1a">P1·Day A</button>
+  <button class="nb" data-t="p1b">P1·Day B</button>
+  <button class="nb" data-t="p1c">P1·Day C</button>
+  <button class="nb" data-t="p2">第二阶段</button>
+  <button class="nb" data-t="p3">第三阶段</button>
+  <button class="nb" data-t="load">负重/加重</button>
+  <button class="nb" data-t="rules">自监规则</button>
+</div>
+
+<!-- ========== 总览 ========== -->
+<div class="tp on" id="t-overview">
+<div class="ct">
+  <div class="cd">
+    <h2>📋 计划总览</h2>
+    <p>本计划经过两份独立AI方案交叉审核，并根据你与ET康宸治疗师的面诊对话做了关键修正。</p>
+
+    <h3>来自治疗师的核心指导（必须遵守）</h3>
+    <div class="therapist">
+      <strong>1. 前锯肌现阶段只做放松，不做强化。</strong>你右侧前锯肌、大小圆肌处于紧张状态。强化重点放在菱形肌上——把肩胛骨拉回来。<br><br>
+      <strong>2. 下肢训练以双侧为主，不练单腿动作。</strong>"所有动作都是复合的，左右腿同时发力。"你的双侧肌力没有太大差异，单侧训练在目前的不平衡状态下可能加重问题。<br><br>
+      <strong>3. 不做单杠/悬吊。</strong>"会把你关节拉松。" 高位下拉（坐姿固定）是安全替代。<br><br>
+      <strong>4. 呼吸不要过度刻意。</strong>训练时胸式腹式都练，重点是改善胸廓整体扩张。日常生活用最舒服的方式呼吸，不用刻意左侧定向。左侧定向呼吸只是训练中的辅助工具。<br><br>
+      <strong>5. 施罗特重心放在腰段。</strong>你的胸椎活动度在正常范围，真正僵硬的是腰椎和骨盆。<br><br>
+      <strong>6. 深蹲问题根源：臀肌和后侧链太紧。</strong>松开小腿腘绳肌和臀肌，你就能正常蹲下去。<br><br>
+      <strong>7. 放松策略：要放松就全部放松。</strong>不能简单地"凸侧收紧凹侧放松"，因为是S型弯。
+    </div>
+
+    <h3>12周总框架</h3>
+    <table class="stbl">
+      <tr><th>阶段</th><th>周数</th><th>频率</th><th>RPE</th><th>重点</th></tr>
+      <tr><td><strong style="color:var(--ac)">第一阶段</strong></td><td>第1-4周</td><td>3天/周</td><td>6-7</td><td>学动作、减疼痛、改善呼吸、双侧下肢基础</td></tr>
+      <tr><td><strong style="color:var(--p)">第二阶段</strong></td><td>第5-8周</td><td>3天+可选恢复日</td><td>7-8</td><td>增加训练量、引入六角杠硬拉、动作升级</td></tr>
+      <tr><td><strong style="color:var(--o)">第三阶段</strong></td><td>第9-12周</td><td>3-4天</td><td>7-9</td><td>更完整的增肌训练、谨慎引入单侧和杠铃动作</td></tr>
+    </table>
+
+    <h3>每周安排</h3>
+    <div class="co i">
+      <strong>推荐：</strong>周一 Day A → 周二 休息（呼吸+拉伸10分钟）→ 周三 Day B → 周四 休息 → 周五 Day C → 周六 轻度篮球/走路 → 周日 完全休息<br><br>
+      <strong>篮球：</strong>不要和下肢训练日重叠，至少间隔24小时。你的治疗师把篮球专项放在康复更后期的阶段。
+    </div>
+
+    <h3>动作替换表</h3>
+    <table class="stbl">
+      <tr><th>延后引入</th><th>现阶段使用</th><th>回归条件</th></tr>
+      <tr><td class="av">杠铃深蹲</td><td class="sf">高脚杯深蹲/Belt squat/腿举</td><td>FMS深蹲≥2，无躯干左偏</td></tr>
+      <tr><td class="av">传统硬拉</td><td class="sf">哑铃RDL → 六角杠（P2）</td><td>RDL稳定，可做体重×0.75</td></tr>
+      <tr><td class="av">站姿杠铃推举</td><td class="sf">地雷管推举/器械推举</td><td>肩部灵活性改善，无右肩胛痛</td></tr>
+      <tr><td class="av">杠铃俯身划船</td><td class="sf">胸部支撑划船/绳索划船</td><td>核心稳定性足够维持无旋转</td></tr>
+      <tr><td class="av">单杠/引体向上</td><td class="sf">高位下拉（坐姿固定）</td><td>治疗师确认关节稳定性OK</td></tr>
+      <tr><td class="av">单腿深蹲/分腿蹲</td><td class="sf">双侧深蹲/腿举/臀推</td><td>核心稳定且步态明显改善</td></tr>
+      <tr><td class="av">旋转核心（俄罗斯转体）</td><td class="sf">Pallof推/侧桥/死虫</td><td>有专业指导时谨慎尝试</td></tr>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ========== 热身 ========== -->
+<div class="tp" id="t-warmup">
+<div class="ct">
+  <div class="cd">
+    <h2>🔥 标准热身流程（每次训练前，12-15分钟）</h2>
+
+    <div class="sd warm">A · 放松（3-4分钟）——治疗师强调"先松再练"</div>
+
+    <div class="ex">
+      <div class="et"><span class="en">泡沫轴放松：右侧胸廓背面</span><span class="er">60-90秒</span></div>
+      <div class="eh">侧卧或半趴，泡沫轴放在右侧肩胛骨内缘区域，缓慢滚动。覆盖菱形肌、肩胛提肌区域。<strong>治疗师指导：右侧菱形肌先放松，松完再练。</strong></div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">泡沫轴/网球放松：臀肌 + 小腿</span><span class="er">每侧60秒</span></div>
+      <div class="eh"><strong>治疗师原话：</strong>"你屁股特别紧，你把小腿腘绳肌屁股一松，你正常就能蹲下去。" 臀肌用泡沫轴或网球坐着滚。小腿后侧用泡沫轴滚。下肢训练日多花时间。</div>
+    </div>
+
+    <div class="sd warm">B · 呼吸（2-3分钟）</div>
+
+    <div class="ex">
+      <div class="et"><span class="en">胸廓扩张呼吸练习</span><span class="er">6-8次 × 1组</span></div>
+      <div class="eh">
+        <strong>姿势：</strong>右侧卧或仰卧均可。<br>
+        <strong>方法：</strong>鼻吸4秒 → 保持2秒 → 嘴缩唇呼气6秒<br>
+        <strong>重点：</strong>吸气时感受<strong>整个胸廓扩张</strong>——前后和左右都要撑开。你有平背，纵向（前后）和横向扩张都不够。可以同时把注意力放在左侧肋骨，但<strong>不要过度执着于只吸左侧</strong>。
+      </div>
+      <div class="therapist">
+        <strong>治疗师指导：</strong>"胸式腹式你都练一练…你的胸廓扩张、腹横肌膈肌训练真的都很重要。""日常用最舒服的方式呼吸，不用刻意。""最终目的是让你呼吸时不出现气短或不舒服。"
+      </div>
+    </div>
+
+    <div class="sd warm">C · 活动度（4分钟）</div>
+
+    <div class="ex">
+      <div class="et"><span class="en">猫驼式</span><span class="er">8次</span></div>
+      <div class="eh">四足位。吸气塌腰抬头（牛式），呼气拱背低头（猫式）。每个位置停1秒。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">四足前后摇摆（Quadruped Rock-back）</span><span class="er">8次</span></div>
+      <div class="eh">四足位，臀部缓慢向后坐向脚跟。感受腰椎和髋部拉伸。回来时保持脊柱中立。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">胸椎旋转（翻书式）</span><span class="er">每侧6次</span></div>
+      <div class="eh">侧卧屈膝90°叠放。上方手臂向对侧打开，眼睛跟手走。<strong>保持骨盆不动。</strong>你的治疗师康复方案里有"侧卧胸椎旋转激活"和"四肢跪位胸椎旋转+肩胛骨"。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">90/90 髋部转换</span><span class="er">每侧6次</span></div>
+      <div class="eh">坐地双腿各成90°。缓慢将双膝倒向另一侧。躯干尽量直立。<strong>治疗师：你的腰椎和骨盆比胸椎更僵硬，多花时间在这里。</strong></div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">小腿拉伸（弓步靠墙）</span><span class="er">每侧30-45秒</span></div>
+      <div class="eh">后脚跟踩地，前腿微弓。你的FMS显示足跟离地，这个拉伸直接针对根源问题。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">腘绳肌动态拉伸</span><span class="er">每侧8次</span></div>
+      <div class="eh">直腿前踢至舒适高度，不弹震。你的评估报告写了"双下肢后群肌肉僵硬"。</div>
+    </div>
+
+    <div class="sd warm">D · 激活（4-5分钟）</div>
+
+    <div class="ex">
+      <div class="et"><span class="en">弹力带 T-Y-W 组合</span><span class="er">各8次</span></div>
+      <div class="eh">
+        <strong>T（中斜方肌水平后缩）：</strong>俯卧或站立，双臂侧平举，拇指朝上，向后挤压肩胛骨。<br>
+        <strong>Y（下斜方肌）：</strong>双臂举成Y形（向上45°），拇指朝上，向后收缩。<br>
+        <strong>W（菱形肌+中下斜方肌）：</strong>双肘弯曲，向后向下拉成W形。<br><br>
+        <strong>你的治疗师康复方案里有"T字后缩、Y字后缩、坐位弹力带W字后缩/下拉"——这里全部覆盖。</strong>重点是菱形肌强化（治疗师指示的首要强化目标）。
+      </div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">弹力带 L 外旋</span><span class="er">12次</span></div>
+      <div class="eh">大臂贴体侧，肘弯90°，向外旋转前臂。轻阻力。肩袖激活。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">四足支撑肩胛骨后缩练习</span><span class="er">10次</span></div>
+      <div class="eh">四足位，手臂伸直。让肩胛骨之间"夹紧"（后缩），然后放松让胸部下沉（前伸）。<strong>重点放在后缩阶段</strong>——挤压肩胛骨中间，保持2秒。这是你治疗师方案里的"四点支撑位肩胛骨前伸后缩练习"。</div>
+      <div class="therapist"><strong>治疗师指导：</strong>强化的重点是菱形肌（把肩胛骨拉回来）。前锯肌现阶段只需放松，不做专门强化。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">臀桥</span><span class="er">12次</span></div>
+      <div class="eh">仰卧屈膝，脚与髋同宽。顶峰停1秒，挤压臀肌。肋骨不外翻。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">蚌式开合 + 螃蟹步</span><span class="er">蚌式每侧8次 + 螃蟹步6步×2趟</span></div>
+      <div class="eh">蚌式：侧卧屈膝，脚跟不分开，上膝外开。臀中肌激活。可加弹力带。<br>螃蟹步：站立微蹲，弹力带套在膝盖上方，侧向走步。<strong>你的治疗师康复方案里有"螃蟹侧走"。</strong></div>
+    </div>
+
+    <div class="co t">
+      <strong>热身组协议（正式动作开始前）：</strong><br>每个正式动作的第一组前，做1-2组热身递增：正式重量的40%×8次 → 60%×5次 → 然后开始正式组。不要冷启动。
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== P1 Day A ========== -->
+<div class="tp" id="t-p1a">
+<div class="ct">
+  <div class="cd">
+    <span class="ph p1">第一阶段 · 第1-4周</span>
+    <h2>🦵 Day A — 下肢 + 拉类</h2>
+    <p>6个动作（含核心）。预计50-60分钟含热身。<strong>全部双侧下肢动作。</strong></p>
+
+    <div class="ex">
+      <div class="et"><span class="en">① 高脚杯深蹲到箱 / Belt squat</span><span class="er">3 × 8-10</span></div>
+      <div class="em">
+        <span class="mp rest">休息 90秒</span><span class="mp tempo">节奏 3-1-2</span><span class="mp rpe">RPE 6-7</span>
+      </div>
+      <div class="eh">
+        <strong>Belt squat优先</strong>（零脊柱压缩）。没有就做高脚杯深蹲。<br><br>
+        <strong>高脚杯深蹲到箱：</strong><br>
+        1. 双手托住哑铃上端贴近胸口，手肘指向下方<br>
+        2. 站距略宽于肩，脚尖外开15-30°<br>
+        3. 箱子/凳子高度 = 大腿与地面平行<br>
+        4. <strong>吸气支撑：</strong>鼻子吸气，气进腹部+两侧+后方，腹部"撑开一圈"<br>
+        5. <strong>下降3秒：</strong>臀部向后向下坐，膝盖跟脚尖方向推<br>
+        6. <strong>触箱停1秒：</strong>轻触箱面，不要完全坐下卸力<br>
+        7. <strong>上升2秒：</strong>脚掌三点（大脚趾球、小脚趾球、脚跟）均匀推地<br>
+        8. 站直后呼气
+      </div>
+      <div class="cue">
+        <strong>关键提示：</strong><br>
+        • 脚跟一抬就减重量或垫5mm脚跟楔块<br>
+        • 镜子检查：躯干有没有向左偏/旋转<br>
+        • "肋骨叠在骨盆上"——不要为了深度而腰部过凸<br>
+        • 治疗师说你臀肌太紧导致必须外扒才能蹲——<strong>热身里的臀肌放松别跳过</strong>
+      </div>
+      <div class="stop"><strong>停止信号：</strong>左腰锐痛、膝盖内扣无法纠正、脚跟持续抬起</div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">② 哑铃罗马尼亚硬拉 (RDL)</span><span class="er">3 × 8-10</span></div>
+      <div class="em"><span class="mp rest">休息 90秒</span><span class="mp tempo">节奏 3-0-2</span><span class="mp rpe">RPE 6-7</span></div>
+      <div class="eh">
+        1. 双手各持哑铃，自然下垂于大腿前<br>
+        2. 站距与肩同宽，膝盖<strong>微屈但固定</strong><br>
+        3. <strong>吸气支撑</strong><br>
+        4. <strong>下降3秒：</strong>臀部向<strong>后</strong>推，哑铃沿大腿前滑下<br>
+        5. 下到腘绳肌有明显拉伸感即可<strong>（不必碰地）</strong><br>
+        6. <strong>上升2秒：</strong>臀肌和腘绳肌收缩，骨盆推回来<br>
+        7. 站直时挤压臀肌1秒
+      </div>
+      <div class="cue">
+        • 背保持"长"——头到尾骨一条直线<br>
+        • 不要耸肩<br>
+        • 哑铃紧贴大腿滑，不飘离身体
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">③ 胸部支撑哑铃划船</span><span class="er">3 × 8-12 <span style="color:var(--p)">+ 右侧补强1×12-15</span></span></div>
+      <div class="em"><span class="mp rest">休息 75秒</span><span class="mp tempo">节奏 2-1-2</span><span class="mp rpe">RPE 7</span><span class="mp tag">菱形肌重点</span></div>
+      <div class="eh">
+        1. 上斜凳设30-45°，胸口趴在凳面上，双脚踩地<br>
+        2. 双手各持哑铃自然下垂<br>
+        3. <strong>上拉2秒：</strong>先让肩胛骨"收回并下沉"（菱形肌发力），然后肘部向后拉<br>
+        4. <strong>顶峰停1秒：</strong>挤压中背/肩胛骨之间<br>
+        5. <strong>下放2秒：</strong>控制回到起点<br><br>
+        <strong>右侧补强：</strong>3组做完后，右手单独再做1组（比正式组轻20-30%），12-15次。针对右侧菱形肌/中下斜方肌的有限非对称策略。
+      </div>
+      <div class="therapist"><strong>治疗师指导：</strong>"你主要强化的是菱形肌…把肩胛骨拉回来。""胸托划船比俯身划船更适合你——减少躯干稳定需求。"</div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">④ 对握高位下拉</span><span class="er">3 × 10-12</span></div>
+      <div class="em"><span class="mp rest">休息 75秒</span><span class="mp tempo">节奏 2-1-3</span><span class="mp rpe">RPE 7</span><span class="mp tag">替代引体/单杠</span></div>
+      <div class="eh">
+        1. 对握（掌心相对）把手，坐稳，大腿固定<br>
+        2. <strong>下拉2秒：</strong>肘向下向后，拉到上胸/锁骨<br>
+        3. <strong>顶峰停1秒</strong><br>
+        4. <strong>回放3秒：</strong>慢慢回到顶部，感受背阔肌拉伸<br><br>
+        不要身体后仰甩重量。对握减少肩部内旋应力。
+      </div>
+      <div class="therapist"><strong>治疗师指导：</strong>"不要做单杠，因为会把你关节拉松。" 高位下拉是安全替代。</div>
+    </div>
+
+    <div class="sd core">核心训练（抗旋转+抗侧屈）</div>
+
+    <div class="ex">
+      <div class="et"><span class="en">⑤ 死虫式 (Dead Bug)</span><span class="er">3 × 每侧6-8</span></div>
+      <div class="em"><span class="mp rest">休息 60秒</span><span class="mp tempo">节奏 3-1-3</span></div>
+      <div class="eh">
+        1. 仰卧，双臂指向天花板，双腿抬起屈膝90°<br>
+        2. <strong>下背紧贴地面</strong>——全程不能拱起<br>
+        3. <strong>伸展3秒：</strong>右臂向头后伸 + 左腿向前伸（对角线）<br>
+        4. <strong>停1秒</strong><br>
+        5. <strong>回收3秒</strong><br>
+        6. 换对侧。腰一拱就缩小动作范围。
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">⑥ 侧桥</span><span class="er">左3×25-30秒 / 右3×20-25秒</span></div>
+      <div class="em"><span class="mp rest">休息 45秒</span><span class="mp tag">有限非对称</span></div>
+      <div class="eh">
+        前臂撑地，肘在肩正下方。抬起骨盆，身体成一直线。保持呼吸。<br>
+        左侧（凸侧）略长于右侧——这是仅保留的有限非对称策略之一。<br>
+        <strong>退阶：</strong>膝盖着地版。
+      </div>
+    </div>
+
+    <div class="sd cool">收尾（3分钟）</div>
+    <div class="ex">
+      <div class="et"><span class="en">婴儿式减压呼吸</span><span class="er">6-8次慢呼吸</span></div>
+      <div class="eh">手臂前伸，臀部坐向脚跟。感受整个背部扩张。每次吸气想象胸廓前后左右都在撑开。</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== P1 Day B ========== -->
+<div class="tp" id="t-p1b">
+<div class="ct">
+  <div class="cd">
+    <span class="ph p1">第一阶段 · 第1-4周</span>
+    <h2>💪 Day B — 推类 + 臀部</h2>
+    <p>7个动作（含核心和手臂超级组）。预计50-60分钟。</p>
+
+    <div class="ex">
+      <div class="et"><span class="en">① 臀推 (Hip Thrust)</span><span class="er">3 × 8-10</span></div>
+      <div class="em"><span class="mp rest">休息 90秒</span><span class="mp tempo">节奏 2-2-2</span><span class="mp rpe">RPE 6-7</span></div>
+      <div class="eh">
+        1. 上背靠凳边，杠铃/哑铃放在髋折痕处（用垫子）<br>
+        2. 双脚与肩同宽，小腿在顶峰时垂直<br>
+        3. <strong>上推2秒 → 顶峰停2秒（挤压臀肌）→ 下放2秒</strong><br>
+        4. <strong>肋骨保持下沉！</strong>不要用腰椎过伸来"顶"
+      </div>
+      <div class="cue">顶峰时看你的腰——如果过度拱起说明臀肌没发力，是腰在借力。降重量。</div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">② 腿举（中等重量）</span><span class="er">3 × 10-12</span></div>
+      <div class="em"><span class="mp rest">休息 90秒</span><span class="mp tempo">节奏 3-0-2</span><span class="mp rpe">RPE 7</span></div>
+      <div class="eh">
+        脚与肩同宽放踏板中间偏上。<strong>下降3秒</strong>控制平台，膝盖接近90°。<strong>推起2秒</strong>不锁死膝盖。<br>
+        <strong>关键：</strong>全程腰椎贴住靠背。骨盆开始"卷起"（下背离开靠背）就是下太深了。
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">③ 上斜哑铃卧推</span><span class="er">3 × 8-12</span></div>
+      <div class="em"><span class="mp rest">休息 90秒</span><span class="mp tempo">节奏 3-0-2</span><span class="mp rpe">RPE 7</span></div>
+      <div class="eh">
+        凳子30°上斜。肩胛骨自然贴凳。<strong>下降3秒</strong>哑铃到胸部两侧，肘约45°。<strong>推起2秒</strong>。<br>
+        哑铃允许两臂独立运动——适应你的肩胛不对称。注意两侧下降速度一致。
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">④ 半跪姿地雷管推举</span><span class="er">3 × 8-10 每侧</span></div>
+      <div class="em"><span class="mp rest">休息 75秒</span><span class="mp tempo">节奏 2-1-2</span><span class="mp rpe">RPE 6-7</span><span class="mp tag">替代站姿推举</span></div>
+      <div class="eh">
+        1. 杠铃一端插入地雷管底座或墙角<br>
+        2. 半跪姿（右腿前/左膝跪地），后方臀肌收紧<br>
+        3. 单手握杠铃端头于肩膀高度<br>
+        4. <strong>先收腹</strong>→<strong>推起2秒</strong>→<strong>顶峰停1秒</strong>→<strong>下放2秒</strong><br>
+        5. 做完一侧再换
+      </div>
+      <div class="stop">右肩胛区出现"深层酸痛"或VAS>3，立刻降重或停止。这一阶段<strong>不加坐姿单臂肩推</strong>——治疗师说先解决疼痛再加推举量。</div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">⑤ 面拉 (Face Pull)</span><span class="er">3 × 12-15</span></div>
+      <div class="em"><span class="mp rest">休息 60秒</span><span class="mp tempo">节奏 2-2-2</span><span class="mp rpe">RPE 7-8</span></div>
+      <div class="eh">
+        绳索设面部高度。<strong>拉2秒</strong>：肘向后向外打开，拉到耳朵两侧。<strong>顶峰2秒</strong>挤压。<strong>回放2秒</strong>。<br>
+        对抗你的肩内扣模式。每个训练日都可以做。
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">⑥ Pallof推（抗旋转）</span><span class="er">3 × 每侧10</span></div>
+      <div class="em"><span class="mp rest">休息 60秒</span><span class="mp tempo">推出2秒-停2秒-收回2秒</span><span class="mp tag">核心</span></div>
+      <div class="eh">
+        绳索设胸部高度，站在侧面。双手握把手于胸前。<strong>推出</strong>→<strong>保持</strong>（抵抗旋转拉力）→<strong>收回</strong>。<br>
+        治疗师强调胸椎旋转稳定性训练一定要练。
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">⑦ 绳索下压 + 哑铃弯举（超级组）</span><span class="er">各2 × 12-15</span></div>
+      <div class="em"><span class="mp rest">休息 60秒（两个做完算1轮）</span><span class="mp rpe">RPE 8</span></div>
+      <div class="eh">先做绳索下压，不休息接哑铃弯举，然后休息。重复2轮。孤立动作可以推得更接近力竭。</div>
+    </div>
+
+    <div class="co i"><strong>Day B 收尾：</strong>婴儿式 + 胸椎旋转各6次 + 3次胸廓扩张呼吸。</div>
+  </div>
+</div>
+</div>
+
+<!-- ========== P1 Day C ========== -->
+<div class="tp" id="t-p1c">
+<div class="ct">
+  <div class="cd">
+    <span class="ph p1">第一阶段 · 第1-4周</span>
+    <h2>🔄 Day C — 全身整合</h2>
+    <p>6个动作 + 有氧。预计55-65分钟。<strong>全部双侧动作。</strong></p>
+
+    <div class="ex">
+      <div class="et"><span class="en">① 腿举 或 Belt squat（不同于Day A的变体）</span><span class="er">3 × 10-12</span></div>
+      <div class="em"><span class="mp rest">休息 90秒</span><span class="mp tempo">节奏 3-0-2</span><span class="mp rpe">RPE 7</span></div>
+      <div class="eh">如果Day A做了高脚杯深蹲，这里换腿举。如果Day A做了Belt squat，这里可以做高脚杯深蹲。<strong>保持下肢训练变化性，但始终双侧。</strong></div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">② 坐姿腘绳肌弯举</span><span class="er">3 × 10-15</span></div>
+      <div class="em"><span class="mp rest">休息 60秒</span><span class="mp tempo">节奏 2-1-3</span><span class="mp rpe">RPE 8</span></div>
+      <div class="eh">器械动作，无脊柱负荷。<strong>下放3秒</strong>要慢——离心阶段对肌肉增长更有效。孤立动作可以推得更接近力竭。</div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">③ 器械胸推</span><span class="er">3 × 10-12</span></div>
+      <div class="em"><span class="mp rest">休息 75秒</span><span class="mp tempo">节奏 2-1-2</span><span class="mp rpe">RPE 7</span></div>
+      <div class="eh">固定轨道器械。减少稳定需求。调整座椅让把手在胸部中间水平。</div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">④ 坐姿绳索划船（带暂停）</span><span class="er">3 × 10-12 <span style="color:var(--p)">+ 右侧单臂补强1×12</span></span></div>
+      <div class="em"><span class="mp rest">休息 75秒</span><span class="mp tempo">节奏 2-1-2</span><span class="mp rpe">RPE 7</span><span class="mp tag">菱形肌重点</span></div>
+      <div class="eh">
+        双侧坐姿划船做完后，右手单臂再做1组轻泵感组。<br>
+        <strong>暂停划船：</strong>拉到顶端时停1秒，专注肩胛骨完全后缩。不要身体后仰借力。
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">⑤ 侧平举</span><span class="er">3 × 12-15</span></div>
+      <div class="em"><span class="mp rest">休息 45秒</span><span class="mp tempo">节奏 2-1-3</span><span class="mp rpe">RPE 8</span></div>
+      <div class="eh">轻重量。举到肩膀高度，小指微高于大拇指。<strong>下放3秒</strong>要慢。</div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">⑥ 鸟狗式 (Bird-Dog)</span><span class="er">3 × 每侧6-8</span></div>
+      <div class="em"><span class="mp rest">休息 45秒</span><span class="mp tempo">伸出3秒-停3秒-回3秒</span><span class="mp tag">核心</span></div>
+      <div class="eh">
+        四足位。同时伸出右手+左腿成一条直线。<strong>顶部保持3秒</strong>。骨盆始终水平——不旋转。<br>
+        这是治疗师强调的"四足归位"类核心训练——双侧同时参与。
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="et"><span class="en">🚴 有氧：自行车</span><span class="er">15-20分钟</span></div>
+      <div class="eh">轻到中等强度。能说话但略喘。和你康复报告第二/三阶段的心肺训练一致。</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== 第二阶段 ========== -->
+<div class="tp" id="t-p2">
+<div class="ct">
+  <div class="cd">
+    <span class="ph p2">第二阶段 · 第5-8周</span>
+    <h2>📈 第二阶段：增长期</h2>
+
+    <div class="co f">
+      <strong>进入条件（全部满足）：</strong><br>
+      ✓ 训练中右肩胛疼痛 ≤ VAS 3/10<br>
+      ✓ 次日左腰无明显反弹痛<br>
+      ✓ 高脚杯深蹲脚跟基本能稳住<br>
+      ✓ 地雷管推举不诱发肩胛区"深层酸痛"<br>
+      ✓ 呼吸感觉不再"卡住"
+    </div>
+
+    <h3>训练量与强度调整</h3>
+    <p><strong>每肌群：</strong>8-12硬组/周（从6-10升上来）<br>
+    <strong>RPE：</strong>复合动作7-8，孤立动作8-9<br>
+    <strong>频率：</strong>3天为主 + 可选第4天恢复日</p>
+
+    <h3>Day A 升级（下肢+拉类）</h3>
+    <div class="ex">
+      <div class="et"><span class="en">① 深蹲升级</span><span class="er">4 × 8-10</span></div>
+      <div class="em"><span class="mp rest">休息 90-120秒</span><span class="mp rpe">RPE 7-8</span></div>
+      <div class="eh">高脚杯蹲 → <strong>Belt squat加重</strong> 或 <strong>前抱深蹲</strong>（如果可以保持直立）。增加到4组。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">② 铰链升级</span><span class="er">3 × 6-8</span></div>
+      <div class="em"><span class="mp rest">休息 120秒</span><span class="mp rpe">RPE 7-8</span><span class="mp tag">新动作</span></div>
+      <div class="eh">
+        如果前4周哑铃RDL非常稳定，可以尝试<strong>高把位六角杠硬拉</strong>。居中负荷，比传统硬拉更少旋转应力。<br>
+        <strong>操作：</strong>居中站位，双手握两侧高把手。髋铰链+膝微屈起身。脊柱保持中立。<br>
+        <strong>不是必须升级。</strong>如果不确定，继续哑铃RDL加重也完全可以。
+      </div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">③ 胸部支撑划船</span><span class="er">4 × 8-12 + 右侧补强1组</span></div>
+      <div class="eh">继续保留为主拉动作。增加到4组。继续菱形肌重点。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">④ 高位下拉</span><span class="er">3 × 8-12</span></div>
+      <div class="eh">可以尝试不同握距变化（宽握、对握交替）。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">⑤ 核心：死虫 + 侧桥</span></div>
+      <div class="eh">继续。如果死虫和侧桥都很稳了，可以加入<strong>平板支撑下交替抬手</strong>（你治疗师方案里有这个）作为进阶。</div>
+    </div>
+
+    <h3>Day B 升级（推类+臀部）</h3>
+    <div class="ex">
+      <div class="et"><span class="en">① 臀推</span><span class="er">4 × 8-10</span></div>
+      <div class="eh">增加到4组，加重。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">② 腿举</span><span class="er">3 × 10-12</span></div>
+      <div class="eh">加重。仍然双侧。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">③ 上斜哑铃卧推</span><span class="er">4 × 8-12</span></div>
+      <div class="eh">增加到4组。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">④ 地雷管推举</span><span class="er">3 × 8-10</span></div>
+      <div class="eh">继续。如果右肩胛疼痛长期VAS≤2，可以第5-6周尝试加入<strong>坐姿哑铃肩推2×10-12</strong>。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">⑤ 面拉</span><span class="er">3 × 12-20</span></div>
+      <div class="eh">加量。这个动作对你的肩部健康极其重要，可以每天都做。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">⑥ Pallof推 + 手臂超级组</span></div>
+      <div class="eh">核心和手臂同前。</div>
+    </div>
+
+    <h3>Day C 升级（全身）</h3>
+    <div class="ex">
+      <div class="et"><span class="en">① 深蹲变体</span><span class="er">3 × 8-10</span></div>
+      <div class="eh">和Day A用不同的深蹲变体。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">② 腘绳肌弯举</span><span class="er">3 × 10-15</span></div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">③ 器械胸推</span><span class="er">3 × 10-12</span></div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">④ 坐姿绳索划船 + 右侧补强</span><span class="er">3+1 × 10-12</span></div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">⑤ 侧平举</span><span class="er">3 × 12-20</span></div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">⑥ 鸟狗 或 屈膝平板</span></div>
+      <div class="eh">治疗师提到"屈膝平板"（四足位抬膝悬停）是很好的中立位核心训练。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">🚴 有氧</span><span class="er">15-20分钟</span></div>
+    </div>
+
+    <h3>可选第4天：恢复/泵感日（约30分钟）</h3>
+    <div class="ex">
+      <div class="eh">
+        • 自行车 15分钟（轻松）<br>
+        • 胸廓扩张呼吸 6次<br>
+        • 面拉 3×15<br>
+        • 弹力带T-Y-W 3×10<br>
+        • 蚌式+螃蟹步 3×12<br>
+        • 侧桥 2组<br>
+        • 弯举/臂屈伸 各2×15<br><br>
+        <strong>不是硬练</strong>，是促恢复+补小肌群。
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== 第三阶段 ========== -->
+<div class="tp" id="t-p3">
+<div class="ct">
+  <div class="cd">
+    <span class="ph p3">第三阶段 · 第9-12周</span>
+    <h2>🚀 第三阶段：过渡到更完整训练</h2>
+
+    <div class="co f">
+      <strong>进入条件：</strong><br>
+      ✓ 第二阶段全程右肩胛VAS ≤ 2/10<br>
+      ✓ 深蹲模式稳定（脚跟接触好、躯干无明显偏移）<br>
+      ✓ 六角杠硬拉（如果引入了）动作质量好<br>
+      ✓ 日常呼吸无明显气短
+    </div>
+
+    <p>频率可升至<strong>3-4天</strong>。训练开始更像"正常健身房增肌"，但仍然有筛选。</p>
+
+    <h3>可以逐步尝试加入的动作</h3>
+    <div class="ex">
+      <div class="et"><span class="en">前蹲到箱</span><span class="er">3 × 6-8</span></div>
+      <div class="em"><span class="mp rest">休息 120秒</span><span class="mp rpe">RPE 7-8</span></div>
+      <div class="eh">杠铃放在前三角肌/锁骨。箱子控制深度。比后蹲更迫使躯干直立。手腕灵活性不够可以交叉握。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">六角杠硬拉（加重/更多组数）</span><span class="er">4 × 5-6</span></div>
+      <div class="em"><span class="mp rest">休息 120秒</span><span class="mp rpe">RPE 8</span></div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">坐姿哑铃肩推</span><span class="er">3 × 8-10</span></div>
+      <div class="em"><span class="mp rest">休息 90秒</span><span class="mp rpe">RPE 7-8</span></div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">哑铃卧推（平板或上斜）</span><span class="er">4 × 8-12</span></div>
+      <div class="eh">如果第二阶段上斜卧推两侧感觉对称，可以增加平板卧推作为补充。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">轻度双侧 Farmer Walk</span><span class="er">3 × 40米</span></div>
+      <div class="eh"><strong>双手持重起步</strong>，不是单侧。肩膀保持水平，核心收紧。观察步态有无恶化。</div>
+    </div>
+    <div class="ex">
+      <div class="et"><span class="en">BOSU球/平衡垫弓箭步（治疗师方案）</span><span class="er">2 × 每侧8</span></div>
+      <div class="eh">你治疗师方案里有"BOSU球/平衡垫上弓箭步维持和弓箭步蹲起"。等稳定地面上的深蹲做得很干净后引入。</div>
+    </div>
+
+    <h3>可以谨慎尝试单侧下肢动作</h3>
+    <div class="co t">
+      <strong>条件：</strong>核心稳定且步态明显改善后，可以<strong>非常谨慎地</strong>引入保加利亚分腿蹲或台阶蹲。<br><br>
+      <strong>注意：</strong>你的治疗师说"不练单侧"指的是当前阶段。第三阶段如果前面8周的双侧训练让核心和步态都稳定了，可以在治疗师确认下尝试。从徒手或很轻的负重开始。
+    </div>
+
+    <h3>仍然不建议在12周内主打</h3>
+    <ul>
+      <li>大重量杠铃后蹲</li>
+      <li>传统硬拉从地面拉</li>
+      <li>站姿杠铃过头推举</li>
+      <li>大重量俯身杠铃划船</li>
+      <li>单杠/引体向上</li>
+      <li>爆发旋转类腹肌</li>
+      <li>很重的单侧手提箱行走</li>
+    </ul>
+
+    <h3>第三阶段参考4天分化</h3>
+    <table class="stbl">
+      <tr><th>天</th><th>内容</th><th>重点动作</th></tr>
+      <tr><td>上肢A（拉）</td><td>背 · 二头 · 后三角</td><td>胸托划船4×8-12、下拉3×8-12、面拉4×15-20、弯举3×10-15</td></tr>
+      <tr><td>下肢A</td><td>股四 · 臀 · 核心</td><td>前蹲/Belt squat 4×6-8、腿举3×10-12、臀推4×8-10、Pallof推3×10</td></tr>
+      <tr><td>上肢B（推）</td><td>胸 · 肩 · 三头</td><td>上斜哑铃推4×8-12、器械推3×10-12、地雷管/坐姿肩推3×8-10、侧平举3×15-20</td></tr>
+      <tr><td>下肢B</td><td>后侧链 · 核心 · 有氧</td><td>六角杠硬拉4×5-6、RDL 3×8-10、腘绳肌弯举3×10-15、Farmer Walk 3×40m、自行车15-20min</td></tr>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ========== 负重/加重 ========== -->
+<div class="tp" id="t-load">
+<div class="ct">
+  <div class="cd">
+    <h2>⚖️ 负重选择与渐进加重</h2>
+
+    <h3>核心原则：不练到力竭</h3>
+    <div class="co w">
+      <strong>为什么不力竭：</strong>接近力竭时动作质量最先崩溃。你的问题（躯干左偏、脚跟抬起、膝盖内扣、肩胛控制丢失）全部会在疲劳时重新出现。在代偿模式下继续推次数 = 强化你要纠正的坏模式。<br><br>
+      研究支持：练到力竭vs留1-2个余量，增肌效果几乎无差异，但力竭的关节疲劳和恢复成本更高。
+    </div>
+
+    <h3>RPE / RIR 指引</h3>
+    <table class="stbl">
+      <tr><th>RPE</th><th>含义</th><th>适用场景</th></tr>
+      <tr><td><strong style="color:var(--ac)">6-7</strong></td><td>还能做2-3个好动作</td><td>第一阶段复合动作</td></tr>
+      <tr><td><strong style="color:var(--p)">7-8</strong></td><td>还能做1-2个</td><td>第二阶段复合动作</td></tr>
+      <tr><td><strong style="color:var(--o)">8-9</strong></td><td>还能做0-1个</td><td>第二阶段以后的孤立动作</td></tr>
+      <tr><td><strong style="color:var(--r)">10</strong></td><td>力竭</td><td><strong>暂时不用</strong></td></tr>
+    </table>
+
+    <h3>如何找起始重量</h3>
+    <div class="ex">
+      <div class="eh">
+        <strong>第一次做某动作：</strong><br>
+        第一组：用"很轻松"的重量做目标次数（能做15次的重量只做8次）→ 感受动作<br>
+        第二组：稍加重，做8次。问自己"还能做几个？"<br>
+        第三组：微调至做完后"大概还能做3个左右" = 你的工作重量<br>
+        <strong>记录下来。</strong>前1-2周都在校准，完全正常。
+      </div>
+    </div>
+
+    <h3>双重渐进法</h3>
+    <div class="ex">
+      <div class="eh">
+        1. 在规定次数范围内训练（如3×8-12，先用能做8次的重量）<br>
+        2. 每次尝试多做1-2个<br>
+        3. <strong>所有组都达到范围上限（12次）+ 动作质量好 + 无症状加重 = 加重量</strong><br>
+        4. 加完重量后次数回到8次左右，重新爬<br><br>
+        <strong>加重幅度：</strong>上肢 +1~2.5kg / 下肢 +2.5~5kg<br>
+        <strong>每4周减载一周：</strong>总组数减30-40%，重量不变或稍减
+      </div>
+    </div>
+
+    <h3>最重要的判断方法</h3>
+    <div class="co i">
+      每组做完后问自己：<strong>"最后两个动作的质量和第一个一样好吗？"</strong><br><br>
+      是 → 重量合适，下次可以尝试多做或加重<br>
+      不是（躯干开始歪、脚跟抬了、肩膀耸了）→ 多出来的是"垃圾量"，下次减<br><br>
+      <strong>对你来说，6个完美的深蹲比10个逐渐变形的深蹲增肌效果更好、风险更低。</strong>
+    </div>
+  </div>
+
+  <div class="cd">
+    <h2>🍗 营养要点</h2>
+    <div class="ex">
+      <div class="eh">
+        <strong>蛋白质：</strong>≥ 1.6g/kg/天（目标2g）。每餐20-40g优质蛋白。<br>
+        <strong>热量：</strong>增肌期不硬减脂。至少维持热量，最好 +200-300kcal/天。<br>
+        <strong>睡眠：</strong>7-9小时。肌肉张力问题在睡眠不足时恶化。<br>
+        <strong>补充：</strong>维生素D 800-1000IU/天 + 钙（含饮食共1000mg/天）。<br>
+        <strong>肌酸：</strong>3-5g/天，安全有效。
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== 自监规则 ========== -->
+<div class="tp" id="t-rules">
+<div class="ct">
+  <div class="cd">
+    <h2>🚦 自我监控规则</h2>
+
+    <h3>规则1：训练中疼痛分级</h3>
+    <div class="ex">
+      <div class="eh">
+        <strong style="color:var(--g)">VAS 0-3/10：</strong>可接受，继续训练<br>
+        <strong style="color:var(--y)">VAS 4/10：</strong>减重量20-30%，看是否改善<br>
+        <strong style="color:var(--r)">VAS 5+/10：</strong>停止该动作，换退阶版本或跳过<br>
+        <strong style="color:var(--r)">锐痛/刺痛/麻木：</strong>立即停止，当天不再做该类动作
+      </div>
+    </div>
+
+    <h3>规则2：24小时规则</h3>
+    <div class="ex">
+      <div class="eh">
+        训练后24小时内，右肩胛/左腰比平时<strong>明显更糟</strong> = 上次量过头了。<br>
+        <strong>处理：</strong>下次减1组或减重量10-15%。<br>
+        <strong>区分：</strong>肌肉酸痛 = 大面积、按压酸、活动后好转。问题性疼痛 = 局限、深层、持续、活动后加重。
+      </div>
+    </div>
+
+    <h3>规则3：镜子规则</h3>
+    <div class="ex">
+      <div class="eh">
+        深蹲/任何站立复合动作用镜子检查：<br>
+        <strong style="color:var(--r)">看到以下任何一个就降级：</strong><br>
+        • 躯干明显向左偏/旋转<br>
+        • 脚跟抬起<br>
+        • 膝盖过度内扣<br>
+        • 骨盆明显歪斜<br>
+        • 哑铃/杠铃明显倾斜<br><br>
+        <strong>这些在疲劳时会重现——这是你最需要警惕的时刻。</strong>
+      </div>
+    </div>
+
+    <h3>训练中呼吸协议</h3>
+    <div class="ex">
+      <div class="eh">
+        每组复合动作（深蹲、RDL、臀推、卧推、划船、推举）的每一次重复：<br><br>
+        <strong>① 准备</strong>：站好/坐稳<br>
+        <strong>② 吸气支撑</strong>：鼻子吸气 → 气进腹部+两侧肋骨+后方 → 腹部"撑开一圈"<br>
+        <strong>③ 保持</strong>：维持360°压力开始动作<br>
+        <strong>④ 过最难点后呼气</strong><br>
+        <strong>⑤ 重新支撑</strong>做下一个
+      </div>
+      <div class="therapist"><strong>治疗师指导：</strong>"训练一般以腹式为主，发力感更好。但没有说哪个更好。胸式腹式你都练一练。" 不要过度执着于只吸左侧。</div>
+    </div>
+  </div>
+
+  <div class="cd">
+    <h2>📊 进展追踪清单</h2>
+    <div class="ex">
+      <div class="eh">
+        <strong>每次训练：</strong><br>
+        ☐ 动作 / 重量 / 组×次<br>
+        ☐ 右肩胛VAS（0-10）<br>
+        ☐ 左腰状态（好/一般/差）<br>
+        ☐ 动作质量问题记录<br><br>
+        <strong>每月：</strong><br>
+        ☐ 体态照片（正/侧/背）<br>
+        ☐ 体重<br><br>
+        <strong>每8周：</strong><br>
+        ☐ 重测FMS深蹲（目标0→1→2）<br><br>
+        <strong>每12周：</strong><br>
+        ☐ 回ET康宸复查
+      </div>
+    </div>
+  </div>
+
+  <div class="cd">
+    <h2>📚 证据与免责</h2>
+    <p style="font-size:10px">
+      本计划综合了两份独立AI方案的交叉审核 + 你与ET康宸治疗师的面诊对话。参考来源：Schmidt et al. 2010（16人横截面EMG）、He et al. 2022（施罗特训练）、SOSORT 2016指南、SRS成人侧弯患者指导、ACSM阻力训练指南、Frontiers 2022增肌变量综述。<br><br>
+      <strong>诚实说明：</strong>脊柱侧弯与力量训练的直接研究非常有限。本计划是康复原则和增肌科学结合的合理推断。你的评估报告是2023年1月的——如果之后有新X光或症状变化，应根据当前情况调整。<strong>请与治疗师确认后执行。</strong>
+    </p>
+  </div>
+</div>
+</div>
+
+<div class="foot">
+  脊柱侧弯增肌指南 · 最终版 v4.0<br>
+  E.T.康宸初诊评估（2023.01.12）+ 治疗师面诊反馈 + 两份AI方案交叉审核<br>
+  请与康复治疗师确认后执行
+</div>
+
+<script>
+document.querySelectorAll('.nb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.nb').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.tp').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    document.getElementById('t-'+b.dataset.t).classList.add('on');
+  });
+});
+function toggleDay(h){h.classList.toggle('op');h.nextElementSibling.classList.toggle('op')}
+</script>
 </body>
 </html>
