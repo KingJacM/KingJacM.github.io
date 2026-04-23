@@ -1,25 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/shared.css">
-    <title>Project Gallery</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jack Ma — Atelier</title>
+<meta name="description" content="A small hand-curated gallery of pages, archives, and side-projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,800;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #f4efe5;
+    --paper-2: #ece4d4;
+    --ink: #18140f;
+    --ink-soft: #3a332b;
+    --muted: #85786a;
+    --rule: #cdbfa8;
+    --rule-soft: #dfd3bc;
+    --accent: #8a3524;        /* terracotta */
+    --accent-2: #2f4939;      /* pine */
+    --accent-3: #4a5775;      /* dusk */
+    --shadow: 0 1px 0 rgba(24,20,15,.04), 0 12px 40px rgba(24,20,15,.06);
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1100px 600px at 85% -10%, rgba(138,53,36,.05), transparent 55%),
+      radial-gradient(900px 500px at -10% 110%, rgba(47,73,57,.06), transparent 60%),
+      var(--paper);
+    color: var(--ink);
+    font-family: "Fraunces", Georgia, serif;
+    font-variation-settings: "opsz" 14;
+    font-weight: 400;
+    line-height: 1.7;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image: radial-gradient(rgba(24,20,15,.035) 1px, transparent 1px);
+    background-size: 3px 3px;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  main{
+    position:relative; z-index:1;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 32px 120px;
+  }
+
+  /* ─── Masthead ───────────────────────────────────────── */
+  header.mast{
+    padding: 96px 0 48px;
+    position: relative;
+  }
+  .eyebrow{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+  h1.name{
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-weight: 500;
+    font-size: clamp(56px, 10vw, 104px);
+    line-height: .95;
+    letter-spacing: -.02em;
+    margin: 0 0 28px;
+    color: var(--ink);
+  }
+  h1.name em{
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .tagline{
+    font-size: clamp(17px, 2.2vw, 20px);
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 600px;
+    margin: 0 0 8px;
+    font-weight: 400;
+  }
+  .tagline em{
+    color: var(--accent);
+    font-style: italic;
+  }
+  .mast-rule{
+    margin-top: 64px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .mast-rule .line{
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .mast-rule .dot{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+  }
+  .mast-rule .label{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .3em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ─── Section header ─────────────────────────────────── */
+  section.works{
+    margin-top: 72px;
+  }
+  h2.section-title{
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 24;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 26px;
+    letter-spacing: -.01em;
+    color: var(--ink);
+    margin: 0 0 48px;
+  }
+  h2.section-title::before{
+    content: "§ ";
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  /* ─── Works list ─────────────────────────────────────── */
+  .works-list{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .work{
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    gap: 40px;
+    padding: 36px 0;
+    border-top: 1px solid var(--rule-soft);
+    align-items: baseline;
+    transition: padding-left .25s ease, background .25s ease;
+    position: relative;
+  }
+  .work:last-child{
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .work:hover{
+    padding-left: 12px;
+  }
+  .work::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background: var(--accent);
+    transition: height .25s ease;
+  }
+  .work:hover::before{
+    height: 60%;
+  }
+
+  .work-meta{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .work-meta .num{
+    display: block;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .work-main{ min-width: 0; }
+  .work-title{
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 60;
+    font-weight: 500;
+    font-size: clamp(26px, 3.4vw, 34px);
+    line-height: 1.15;
+    margin: 0 0 4px;
+    letter-spacing: -.015em;
+  }
+  .work-title a{
+    color: var(--ink);
+    text-decoration: none;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size .3s ease, color .3s ease;
+    padding-bottom: 2px;
+  }
+  .work-title a:hover{
+    color: var(--accent);
+    background-size: 100% 1px;
+  }
+  .work-sub{
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--muted);
+    margin: 0 0 18px;
+  }
+  .work-desc{
+    font-size: 16.5px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 56ch;
+  }
+  .work-tag{
+    display: inline-block;
+    margin-top: 14px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    padding: 3px 8px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+  }
+  .work-tag.external{
+    color: var(--accent-3);
+  }
+
+  .work-arrow{
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--muted);
+    transition: transform .25s ease, color .25s ease;
+    line-height: 1;
+    align-self: center;
+    text-decoration: none;
+  }
+  .work:hover .work-arrow{
+    color: var(--accent);
+    transform: translateX(6px);
+  }
+
+  /* ─── Aside / Colophon ───────────────────────────────── */
+  .colophon{
+    margin-top: 96px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rule-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    color: var(--muted);
+    font-size: 13px;
+    font-family: "JetBrains Mono", monospace;
+    letter-spacing: .08em;
+  }
+  .colophon a{
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .colophon a:hover{
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .colophon .left, .colophon .right{ display:flex; gap:18px; align-items:center; flex-wrap:wrap;}
+
+  /* ─── Responsive ─────────────────────────────────────── */
+  @media (max-width: 680px){
+    main{ padding: 0 22px 80px; }
+    header.mast{ padding: 60px 0 32px; }
+    .work{
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 28px 0;
+    }
+    .work-arrow{ display: none; }
+    .work-meta{ margin-bottom: 6px; }
+    .work-desc{ max-width: none; }
+    .colophon{ flex-direction: column; align-items: flex-start; }
+  }
+</style>
 </head>
 <body>
-    <header>
-        <h1>My Project Gallery</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Projects</h2>
-            <div class="gallery">
-                <!-- Project items will go here -->
-            </div>
-        </section>
-    </main>
-    <footer>
-        <p>© 2026 My Project Gallery</p>
-    </footer>
+<main>
+
+  <!-- ══════════════ MASTHEAD ══════════════ -->
+  <header class="mast">
+    <div class="eyebrow">The Atelier  ·  Est. 2026</div>
+    <h1 class="name">Jack <em>Ma</em></h1>
+    <p class="tagline">
+      A quiet little gallery of pages made here — essays, archives, tools, and the occasional side-project.
+      Most of them begin as <em>conversations with an AI</em> and end up as something worth keeping.
+    </p>
+    <div class="mast-rule">
+      <span class="line"></span>
+      <span class="label">Sydney · 雪梨 · 東京</span>
+      <span class="dot"></span>
+      <span class="line"></span>
+    </div>
+  </header>
+
+  <!-- ══════════════ WORKS ══════════════ -->
+  <section class="works">
+    <h2 class="section-title">Works</h2>
+
+    <div class="works-list">
+
+      <!-- 01 · Tokyo Love Story -->
+      <article class="work">
+        <div class="work-meta">
+          <span class="num">01</span>
+          Archive<br>
+          MMXXVI
+        </div>
+        <div class="work-main">
+          <h3 class="work-title"><a href="tokyo-love-story/">东京爱情故事</a></h3>
+          <p class="work-sub">Tokyo Love Story — a scene &amp; dialogue keepsake</p>
+          <p class="work-desc">
+            A compilation of classic scenes and dialogue from Fuji TV's 1991 drama, annotated and illustrated — originally a 2009 Chinese fan-forum post by <em>咫尺天涯</em>, rebuilt as a quiet magazine-style archive with screenplay-formatted dialogue and the red umbrella still intact.
+          </p>
+          <span class="work-tag">Chinese · 中文</span>
+        </div>
+        <a href="tokyo-love-story/" class="work-arrow" aria-label="Open Tokyo Love Story">→</a>
+      </article>
+
+      <!-- 02 · Gym -->
+      <article class="work">
+        <div class="work-meta">
+          <span class="num">02</span>
+          Programme<br>
+          MMXXVI
+        </div>
+        <div class="work-main">
+          <h3 class="work-title"><a href="gym/">The Gym Notebook</a></h3>
+          <p class="work-sub">健身計劃 — Bodybuilding, adapted</p>
+          <p class="work-desc">
+          </p>
+          <span class="work-tag">Chinese · 中文</span>
+        </div>
+        <a href="gym/" class="work-arrow" aria-label="Open The Gym Notebook">→</a>
+      </article>
+
+      <!-- 03 · Genki Study Resources (external) -->
+      <article class="work">
+        <div class="work-meta">
+          <span class="num">03</span>
+          Tool<br>
+          日本語
+        </div>
+        <div class="work-main">
+          <h3 class="work-title"><a href="/genki-study-resources/">Genki Study Resources</a></h3>
+          <p class="work-sub">げんき — 教科書の学習補助ツール</p>
+          <p class="work-desc">
+            An interactive study companion for the <em>Genki</em> Japanese textbook series — lesson drills, vocabulary, and kana practice. Lives in its own repository; wired up here for convenience.
+          </p>
+          <span class="work-tag external">Link ↗</span>
+        </div>
+        <a href="/genki-study-resources/" class="work-arrow" aria-label="Open Genki Study Resources">→</a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ══════════════ COLOPHON ══════════════ -->
+  <footer class="colophon">
+    <div class="left">
+      <span>© MMXXVI</span>
+      <span>·</span>
+      <span>Jack Ma</span>
+    </div>
+    <div class="right">
+      <a href="https://github.com/KingJacM">GitHub</a>
+      <a href="https://github.com/KingJacM/KingJacM.github.io">Source</a>
+    </div>
+  </footer>
+
+</main>
 </body>
 </html>
