@@ -368,13 +368,23 @@
     margin: 0 auto 48px;
     max-width: 720px;
     padding: 0;
+    text-align: center;
   }
   .hero-img img{
-    width:100%;
+    width:70%;
     height:auto;
     display:block;
     box-shadow: var(--shadow);
     border: 1px solid var(--rule-soft);
+    margin: 0 auto;
+  }
+
+  /* Centered iframe */
+  iframe{
+    display: block !important;
+    margin: 28px auto 48px !important;
+    max-width: 500px !important;
+    max-height: 200px !important;
   }
 
   /* ─── FORUM REPLIES (inline, small) ──────────────────── */
@@ -504,6 +514,7 @@
   <figure class="hero-img">
     <img src="image.png" alt="东京爱情故事 · 主图">
   </figure>
+  <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/0kdruHj6K2OXckxwiyCBBn?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" autoplay></iframe>
 
   <!-- ══════════════ INTRO ══════════════ -->
   <section class="intro">
