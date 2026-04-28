@@ -1,0 +1,2200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>发声训练 · 每日工作台</title>
+<style>
+:root {
+  --bg: #f8f5ee;
+  --surface: #fdfbf6;
+  --surface-2: #f1ece1;
+  --ink: #1f2e2a;
+  --ink-soft: #3a4a45;
+  --muted: #7a7468;
+  --accent: #b8541f;
+  --accent-soft: #e9d3c2;
+  --warn: #b07c1f;
+  --danger: #a33d2a;
+  --line: rgba(31, 46, 42, 0.10);
+  --line-strong: rgba(31, 46, 42, 0.22);
+  --line-accent: rgba(184, 84, 31, 0.35);
+
+  --font-zh: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  --font-zh-serif: "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", "Times New Roman", serif;
+  --font-en-serif: "Iowan Old Style", "Charter", "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", "DejaVu Sans Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-zh);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "palt", "kern";
+  min-height: 100vh;
+  padding: 0 0 80px;
+}
+
+/* — Layout shell — */
+.shell { max-width: 880px; margin: 0 auto; padding: 0 28px; }
+@media (max-width: 600px) { .shell { padding: 0 18px; } }
+
+/* — Header — */
+header.top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 32px 0 24px;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.brand {
+  font-family: var(--font-zh-serif);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+}
+.brand .en {
+  display: block;
+  font-family: var(--font-en-serif);
+  font-style: italic;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 2px;
+  font-weight: 400;
+}
+.date-line {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* — Tab nav — */
+nav.tabs {
+  display: flex;
+  gap: 0;
+  margin: 0 -4px 28px;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+nav.tabs::-webkit-scrollbar { display: none; }
+nav.tabs button {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 14px 16px 12px;
+  margin: 0 4px -1px;
+  font-family: var(--font-zh);
+  font-size: 14px;
+  color: var(--muted);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+nav.tabs button:hover { color: var(--ink-soft); }
+nav.tabs button.active {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+  font-weight: 500;
+}
+nav.tabs button .num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-right: 6px;
+}
+nav.tabs button.active .num { color: var(--accent); }
+
+/* — Panels — */
+.panel { display: none; animation: fade 0.25s ease; }
+.panel.active { display: block; }
+@keyframes fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* — Headings — */
+h1, h2, h3, h4 {
+  font-family: var(--font-zh-serif);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+}
+h2 { font-size: 19px; margin: 36px 0 14px; }
+h2:first-child { margin-top: 8px; }
+h3 { font-size: 16px; margin: 24px 0 10px; }
+h4 { font-size: 14px; margin: 16px 0 8px; color: var(--ink-soft); }
+.kicker {
+  font-family: var(--font-en-serif);
+  font-style: italic;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 6px;
+  display: block;
+  font-weight: 400;
+}
+.lede { color: var(--ink-soft); font-size: 15px; line-height: 1.75; max-width: 56ch; }
+
+/* — Cards — */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 20px 22px;
+}
+.card.tight { padding: 14px 18px; }
+.card-row { display: flex; align-items: baseline; gap: 12px; }
+
+/* — TIMER — */
+.timer-stage {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 36px 32px;
+  margin-bottom: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.timer-stage::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  height: 3px;
+  width: var(--progress, 0%);
+  background: var(--accent);
+  transition: width 0.4s linear;
+}
+.timer-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.timer-meta .module-num { color: var(--accent); font-weight: 500; }
+.timer-name {
+  font-family: var(--font-zh-serif);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+.timer-target {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 24px;
+  letter-spacing: 0.02em;
+}
+.timer-display {
+  font-family: var(--font-mono);
+  font-size: 78px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 8px 0 28px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.timer-display .sep {
+  opacity: 0.3;
+  margin: 0 -2px;
+}
+.timer-display.running .sep { animation: blink 1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 1; } }
+.timer-steps {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.timer-steps h4 {
+  font-family: var(--font-en-serif);
+  font-style: italic;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+.timer-steps ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+.timer-steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 6px 0 6px 28px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.timer-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  width: 20px;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+.btn {
+  font-family: var(--font-zh);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  padding: 11px 20px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+.btn:hover { background: var(--surface-2); border-color: var(--ink); }
+.btn:active { transform: translateY(1px); }
+.btn.primary {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+.btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+.btn.danger { color: var(--danger); border-color: var(--line-accent); }
+.btn.subtle { background: transparent; border-color: var(--line); color: var(--muted); padding: 8px 14px; font-size: 13px; }
+.btn.subtle:hover { color: var(--ink); border-color: var(--ink-soft); }
+.btn.icon {
+  width: 40px; height: 40px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* — Module rail — */
+.rail {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+.rail-item {
+  display: grid;
+  grid-template-columns: 32px 60px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 13px;
+}
+.rail-item:hover { border-color: var(--line-strong); }
+.rail-item.current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.rail-item.done { opacity: 0.55; }
+.rail-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.rail-item.current .rail-num { color: var(--accent); font-weight: 500; }
+.rail-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.rail-name { font-size: 14px; color: var(--ink); letter-spacing: 0.01em; }
+.rail-status {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.rail-item.done .rail-status::before { content: "✓"; color: var(--accent); }
+.rail-item.current .rail-status { color: var(--accent); }
+
+/* — Settings strip — */
+.settings-strip {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.settings-strip label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.settings-strip input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  margin: 0;
+}
+.settings-strip input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.settings-strip input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 4px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+.settings-strip select {
+  font-family: var(--font-zh);
+  font-size: 12px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 3px 6px;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+/* — Tracker — */
+.tracker-form {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+.tracker-row {
+  display: grid;
+  grid-template-columns: 1fr 200px 60px;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.tracker-row:last-of-type { border-bottom: 0; }
+@media (max-width: 600px) {
+  .tracker-row { grid-template-columns: 1fr 50px; }
+  .tracker-row .slider { grid-column: 1 / -1; order: 3; }
+}
+.tracker-label .name { font-size: 14px; color: var(--ink); }
+.tracker-label .desc { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--line);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--line-strong);
+}
+.slider::-moz-range-thumb {
+  width: 14px; height: 14px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--line-strong);
+}
+.slider-value {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--ink);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+.slider-value .unit {
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: 2px;
+  font-weight: 400;
+}
+.tracker-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* — Sparkline grid — */
+.spark-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+.spark-cell {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 14px 16px;
+}
+.spark-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.spark-name { font-size: 13px; color: var(--ink); }
+.spark-current {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.spark-current.empty { color: var(--muted); font-weight: 400; font-size: 13px; font-family: var(--font-zh); }
+.spark-svg { width: 100%; height: 36px; display: block; }
+.spark-svg .area { fill: var(--accent-soft); opacity: 0.5; }
+.spark-svg .line { fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.spark-svg .dot { fill: var(--accent); }
+.spark-svg .baseline { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2,3; }
+.spark-foot {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+.spark-trend.up { color: #2d6a4f; }
+.spark-trend.down { color: var(--danger); }
+.spark-trend.flat { color: var(--muted); }
+
+/* — Streak strip — */
+.streak {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 18px 22px;
+  background: var(--surface-2);
+  border-radius: 6px;
+  flex-wrap: wrap;
+}
+.streak-stat .num {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  display: block;
+  line-height: 1.1;
+}
+.streak-stat .label {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-en-serif);
+  font-style: italic;
+}
+
+/* — Library — */
+.lib-controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.lib-search {
+  flex: 1;
+  min-width: 220px;
+  font-family: var(--font-zh);
+  font-size: 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.lib-search:focus { outline: none; border-color: var(--accent); }
+.lib-filters {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.chip {
+  font-family: var(--font-zh);
+  font-size: 12px;
+  padding: 7px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  transition: all 0.15s;
+}
+.chip:hover { color: var(--ink); border-color: var(--line-strong); }
+.chip.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+.lib-table {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.lib-row {
+  display: grid;
+  grid-template-columns: 32px 1.4fr 1fr 110px;
+  gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+  font-size: 13px;
+}
+.lib-row:last-child { border-bottom: 0; }
+@media (max-width: 600px) {
+  .lib-row { grid-template-columns: 32px 1fr; }
+  .lib-row .col-target, .lib-row .col-freq { grid-column: 2; }
+  .lib-row .col-freq { font-size: 11px; }
+}
+.lib-row.header {
+  background: var(--surface-2);
+  font-family: var(--font-en-serif);
+  font-style: italic;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 400;
+}
+.lib-row.header > div { padding-top: 0; }
+.col-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  padding-top: 2px;
+}
+.col-name { font-size: 14px; color: var(--ink); line-height: 1.4; }
+.col-name .how { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+.col-target { color: var(--ink-soft); line-height: 1.5; }
+.col-freq {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.col-name a {
+  color: var(--accent);
+  font-size: 11px;
+  font-family: var(--font-en-serif);
+  font-style: italic;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-top: 6px;
+  display: inline-block;
+}
+.col-name a:hover { text-decoration: underline; }
+.lib-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+.cat-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: var(--surface-2);
+  color: var(--muted);
+  margin-right: 6px;
+}
+
+/* — Plan tab — */
+.problems {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.problem-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 14px 16px;
+}
+.problem-card .n {
+  font-family: var(--font-en-serif);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+.problem-card .name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 4px 0;
+}
+.problem-card .diag { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+.path-svg { width: 100%; height: auto; margin: 8px 0 32px; }
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 16px;
+}
+@media (max-width: 600px) { .week-grid { grid-template-columns: 1fr 1fr; } }
+.week-tab {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 12px 14px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-zh);
+  transition: all 0.15s;
+}
+.week-tab:hover { border-color: var(--line-strong); }
+.week-tab.active { border-color: var(--accent); background: var(--accent-soft); }
+.week-tab .wk {
+  font-family: var(--font-en-serif);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.week-tab.active .wk { color: var(--accent); }
+.week-tab .name { font-size: 14px; color: var(--ink); margin-top: 4px; font-weight: 500; }
+.week-tab .dur { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 2px; }
+.week-detail {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 22px 26px;
+  margin-bottom: 32px;
+}
+.week-detail p { margin: 0 0 12px; line-height: 1.75; color: var(--ink-soft); }
+.week-detail p:last-child { margin-bottom: 0; }
+
+.rotation {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 4px;
+  margin-bottom: 32px;
+}
+.rotation table { width: 100%; border-collapse: collapse; }
+.rotation th, .rotation td {
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 13px;
+  border-bottom: 1px solid var(--line);
+}
+.rotation tr:last-child td { border-bottom: 0; }
+.rotation th {
+  font-family: var(--font-en-serif);
+  font-style: italic;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.rotation td:first-child {
+  font-family: var(--font-zh-serif);
+  font-weight: 500;
+  color: var(--ink);
+  width: 50px;
+}
+.rotation td:nth-child(2) { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); width: 130px; }
+.rotation td:last-child { color: var(--ink-soft); }
+
+.variants {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-bottom: 32px;
+}
+.variant {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 16px 18px;
+}
+.variant.warn { border-color: var(--warn); border-width: 1px; background: #fef9ed; }
+.variant .badge {
+  display: inline-block;
+  font-family: var(--font-en-serif);
+  font-style: italic;
+  font-size: 10px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  background: var(--surface-2);
+  color: var(--muted);
+}
+.variant.warn .badge { background: var(--warn); color: #fff; }
+.variant p { margin: 0 0 8px; font-size: 13px; line-height: 1.65; color: var(--ink-soft); }
+.variant p:last-child { margin-bottom: 0; }
+.variant .forbid { color: var(--danger); font-size: 12px; margin-top: 8px; }
+
+.essay {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 26px 32px;
+  margin-bottom: 32px;
+}
+.essay p {
+  font-family: var(--font-zh-serif);
+  font-size: 16px;
+  line-height: 1.95;
+  color: var(--ink);
+  margin: 0 0 12px;
+  letter-spacing: 0.04em;
+}
+.essay p:last-child { margin-bottom: 0; }
+.essay p .strike { text-decoration: line-through; color: var(--muted); }
+.essay p strong { font-weight: 500; color: var(--accent); }
+
+/* — Resources — */
+.res-list { display: grid; gap: 4px; margin-bottom: 24px; }
+.res-list a {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: baseline;
+  padding: 11px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: all 0.15s;
+}
+.res-list a:hover { border-color: var(--accent); background: var(--accent-soft); }
+.res-list .pri {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.res-list .label { font-size: 13px; }
+.res-list .label .desc { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* — Export — */
+.export-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.export-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 18px 20px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-zh);
+  transition: all 0.15s;
+}
+.export-card:hover { border-color: var(--accent); }
+.export-card .ico {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-family: var(--font-en-serif);
+  font-style: italic;
+  font-size: 14px;
+}
+.export-card .name { font-size: 14px; font-weight: 500; color: var(--ink); }
+.export-card .desc { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(40px);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  z-index: 100;
+  font-family: var(--font-zh);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* — Print styles — */
+@media print {
+  body { background: #fff; padding: 0; }
+  nav.tabs, .timer-controls, .settings-strip, .tracker-actions, .export-actions, .lib-controls, .toast { display: none !important; }
+  .panel { display: block !important; page-break-after: always; }
+  .panel:last-of-type { page-break-after: auto; }
+  .timer-stage, .card, .week-detail, .essay, .lib-table, .tracker-form, .rotation { break-inside: avoid; box-shadow: none; }
+  .shell { max-width: none; padding: 20mm 15mm; }
+  header.top { padding: 0 0 12px; }
+  h2 { page-break-after: avoid; }
+}
+
+/* — Footnote — */
+.footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-align: center;
+  font-family: var(--font-en-serif);
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<header class="top">
+  <div class="brand">
+    发声训练 · 工作台
+    <span class="en">Daily voice rehabilitation</span>
+  </div>
+  <div class="date-line" id="date-line">— · —</div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="主导航">
+  <button data-tab="today" role="tab" class="active"><span class="num">01</span>今日训练</button>
+  <button data-tab="tracker" role="tab"><span class="num">02</span>自评追踪</button>
+  <button data-tab="library" role="tab"><span class="num">03</span>动作库</button>
+  <button data-tab="plan" role="tab"><span class="num">04</span>计划全览</button>
+  <button data-tab="export" role="tab"><span class="num">05</span>导出 / 备份</button>
+</nav>
+
+<!-- ============ TAB: TODAY (TIMER) ============ -->
+<section id="today" class="panel active" role="tabpanel">
+
+  <span class="kicker">Today's session</span>
+  <h2 style="margin-top: 0">今日训练</h2>
+  <p class="lede">按顺序执行 8 模块、共 45 分钟。每个模块切换会有提示音 + 报名（可在下方关闭）。中途累了随时按"暂停"或跳到"恢复版"。</p>
+
+  <div class="timer-stage" style="--progress: 0%">
+    <div class="timer-meta">
+      <span><span class="module-num" id="module-num">01 / 08</span> · <span id="module-tag">姿势</span></span>
+      <span id="total-elapsed">总进度 00:00 / 45:00</span>
+    </div>
+    <h3 class="timer-name" id="timer-name">姿势重置 + 觉察</h3>
+    <p class="timer-target" id="timer-target">解决：体态、僵硬</p>
+    <div class="timer-display" id="timer-display"><span>04</span><span class="sep">:</span><span>00</span></div>
+
+    <div class="timer-controls">
+      <button class="btn primary" id="btn-start">▶ 开始</button>
+      <button class="btn" id="btn-prev">‹ 上一步</button>
+      <button class="btn" id="btn-next">下一步 ›</button>
+      <button class="btn subtle" id="btn-reset">重置</button>
+    </div>
+
+    <div class="timer-steps">
+      <h4>This module</h4>
+      <ol id="timer-steps"></ol>
+    </div>
+  </div>
+
+  <div class="rail" id="rail"></div>
+
+  <div class="settings-strip">
+    <label><input type="checkbox" id="opt-chime" checked> 切换提示音</label>
+    <label><input type="checkbox" id="opt-speak" checked> 语音报模块名</label>
+    <label><input type="checkbox" id="opt-autonext" checked> 自动进入下一模块</label>
+    <span style="margin-left: auto;">
+      模式：
+      <select id="opt-variant">
+        <option value="full">完整 45 分钟（默认）</option>
+        <option value="recovery">恢复版（嗓子累 / 疼）20 分钟</option>
+        <option value="lite">第一周简化版 30 分钟</option>
+      </select>
+    </span>
+  </div>
+</section>
+
+<!-- ============ TAB: TRACKER ============ -->
+<section id="tracker" class="panel" role="tabpanel">
+
+  <span class="kicker">Self-assessment</span>
+  <h2 style="margin-top: 0">自评追踪</h2>
+  <p class="lede">每周日花 5 分钟评估这 10 项指标。前 4 项主观，中 4 项客观，后 2 项体感。前 8 项越高越好（除"口吃率%SS"和"Camperdown 严重度"反向），系统会自动反算趋势。</p>
+
+  <div class="streak" id="streak"></div>
+
+  <div class="tracker-form" id="tracker-form">
+    <h3 style="margin-top: 0">今日记录 <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-left: 8px;" id="entry-date"></span></h3>
+    <div id="tracker-rows"></div>
+    <div class="tracker-actions">
+      <span style="font-size: 12px; color: var(--muted);" id="entry-status">尚未保存</span>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn subtle" id="btn-load-yesterday">载入昨日数据</button>
+        <button class="btn primary" id="btn-save-entry">保存今日记录</button>
+      </div>
+    </div>
+  </div>
+
+  <h3>14 天趋势</h3>
+  <p class="lede" style="margin-bottom: 16px;">至少 3 天数据后开始显示。绿色三角 = 进步方向，红色 = 倒退方向。</p>
+  <div class="spark-grid" id="spark-grid"></div>
+
+</section>
+
+<!-- ============ TAB: LIBRARY ============ -->
+<section id="library" class="panel" role="tabpanel">
+
+  <span class="kicker">Exercise library</span>
+  <h2 style="margin-top: 0">动作库 · 31 个核心训练</h2>
+  <p class="lede">从自渡鹏鹏 200+ 篇内容 + 国际循证文献中精选。按顺序：呼吸 → 喉部 → 口腔 → 共鸣 → 朗读 → 口吃。点 source 直达原文。</p>
+
+  <div class="lib-controls">
+    <input type="text" class="lib-search" id="lib-search" placeholder="搜索动作名 / 解决问题 / 做法关键词…">
+    <div class="lib-filters" id="lib-filters"></div>
+  </div>
+
+  <div class="lib-table" id="lib-table"></div>
+
+</section>
+
+<!-- ============ TAB: PLAN ============ -->
+<section id="plan" class="panel" role="tabpanel">
+
+  <span class="kicker">The framework</span>
+  <h2 style="margin-top: 0">计划全览</h2>
+  <p class="lede">五个问题有同一个底层机制——<em>气息没下沉到横膈膜，喉部代偿用力</em>。两头紧（丹田 + 口腔）、中间松（声带），按"姿势 → 呼吸 → 喉部 → 共鸣 → 咬字 → 口吃"六步训练。</p>
+
+  <h3>五大问题与诊断</h3>
+  <div class="problems" id="problems"></div>
+
+  <h3>训练路径</h3>
+  <svg class="path-svg" viewBox="0 0 880 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="六步训练顺序">
+    <defs>
+      <marker id="parr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#7a7468" opacity="0.6"/>
+      </marker>
+    </defs>
+    <g font-family="var(--font-zh-serif)" font-size="13" fill="#1f2e2a">
+      <rect x="2" y="20" width="135" height="50" rx="3" fill="#fdfbf6" stroke="#1f2e2a" stroke-width="0.6"/>
+      <text x="69.5" y="42" text-anchor="middle">① 姿势</text>
+      <text x="69.5" y="59" text-anchor="middle" font-size="11" fill="#7a7468">重置</text>
+      <line x1="138" y1="45" x2="153" y2="45" stroke="#7a7468" stroke-width="0.8" marker-end="url(#parr)"/>
+
+      <rect x="155" y="20" width="135" height="50" rx="3" fill="#fdfbf6" stroke="#1f2e2a" stroke-width="0.6"/>
+      <text x="222.5" y="42" text-anchor="middle">② 呼吸</text>
+      <text x="222.5" y="59" text-anchor="middle" font-size="11" fill="#7a7468">下沉</text>
+      <line x1="291" y1="45" x2="306" y2="45" stroke="#7a7468" stroke-width="0.8" marker-end="url(#parr)"/>
+
+      <rect x="308" y="20" width="135" height="50" rx="3" fill="#fdfbf6" stroke="#1f2e2a" stroke-width="0.6"/>
+      <text x="375.5" y="42" text-anchor="middle">③ 喉部</text>
+      <text x="375.5" y="59" text-anchor="middle" font-size="11" fill="#7a7468">释放</text>
+      <line x1="444" y1="45" x2="459" y2="45" stroke="#7a7468" stroke-width="0.8" marker-end="url(#parr)"/>
+
+      <rect x="461" y="20" width="135" height="50" rx="3" fill="#e9d3c2" stroke="#b8541f" stroke-width="0.6"/>
+      <text x="528.5" y="42" text-anchor="middle" fill="#7a3a14">④ 共鸣</text>
+      <text x="528.5" y="59" text-anchor="middle" font-size="11" fill="#9b5a2a">前置</text>
+      <line x1="597" y1="45" x2="612" y2="45" stroke="#7a7468" stroke-width="0.8" marker-end="url(#parr)"/>
+
+      <rect x="614" y="20" width="135" height="50" rx="3" fill="#e9d3c2" stroke="#b8541f" stroke-width="0.6"/>
+      <text x="681.5" y="42" text-anchor="middle" fill="#7a3a14">⑤ 咬字</text>
+      <text x="681.5" y="59" text-anchor="middle" font-size="11" fill="#9b5a2a">朗读</text>
+      <line x1="750" y1="45" x2="765" y2="45" stroke="#7a7468" stroke-width="0.8" marker-end="url(#parr)"/>
+
+      <rect x="767" y="20" width="111" height="50" rx="3" fill="#fdfbf6" stroke="#1f2e2a" stroke-width="0.6"/>
+      <text x="822.5" y="42" text-anchor="middle">⑥ 口吃</text>
+      <text x="822.5" y="59" text-anchor="middle" font-size="11" fill="#7a7468">整合</text>
+    </g>
+  </svg>
+
+  <h3>4 周渐进式安排</h3>
+  <div class="week-grid" id="week-grid"></div>
+  <div class="week-detail" id="week-detail"></div>
+
+  <h3>每周声母轮换</h3>
+  <div class="rotation">
+    <table>
+      <thead>
+        <tr><th>周</th><th>声母</th><th>绕口令 / 朗读</th></tr>
+      </thead>
+      <tbody id="rotation-body"></tbody>
+    </table>
+  </div>
+
+  <h3>变体方案</h3>
+  <div class="variants">
+    <div class="variant">
+      <span class="badge">晨练版</span>
+      <p>默认执行版。加入气泡音（清晨平躺最易找到）和 Alexander 半仰卧休息。</p>
+    </div>
+    <div class="variant">
+      <span class="badge">晚练版</span>
+      <p>朗读模块换成<em>工作场景预演</em>——明天的 standup、code review、presentation 段落，让训练直接服务下一天。</p>
+    </div>
+    <div class="variant warn">
+      <span class="badge">嗓子累 / 疼时</span>
+      <p>相对声休 + 治疗性发声 &gt; 绝对声休（Iowa Head &amp; Neck Protocols 立场）。20 分钟即可，可在"今日训练"切换"恢复版"。</p>
+      <p class="forbid">严禁：硬起声、大声、清嗓、绕口令、强控制 ha 音</p>
+    </div>
+  </div>
+
+  <h3>必读 10 篇 · 自渡鹏鹏精选</h3>
+  <div class="res-list" id="res-list"></div>
+
+  <h3>悉尼本地资源</h3>
+  <div class="problems">
+    <div class="problem-card"><div class="n">USyd</div><div class="name">ASRC</div><div class="diag">Camperdown Program 开发地，免费 manual + telehealth</div></div>
+    <div class="problem-card"><div class="n">UTS</div><div class="name">CBTpsych Stuttering</div><div class="diag">免费在线 CBT，专为成年口吃者，强烈推荐</div></div>
+    <div class="problem-card"><div class="n">Private SLP</div><div class="name">Banter Speech</div><div class="diag">提供 Camperdown 治疗</div></div>
+  </div>
+
+  <h3 style="margin-top: 36px;">必须避免的错误</h3>
+  <div class="card" style="border-left: 3px solid var(--danger); border-radius: 0 4px 4px 0;">
+    <p style="margin-top: 0;"><strong>自渡鹏鹏明确批判：</strong>把"打开口腔"当成张大嘴；用气泡音说话追求磁性；跳过气息直接练共鸣；故意找鼻腔共鸣；只靠骨传导自评。</p>
+    <p><strong>科学文献警告：</strong>belly pushing 主动鼓肚子；过度深吸气；屏气后开口（硬起声）；清嗓；耳语；按颈动脉搏动处；绝对声休 &gt;2 天。</p>
+    <p><strong>林俊卿咽音：</strong>狗喘气、气泡音、半打哈欠可借鉴；但"张小口系列"+"舌成沟舌骨高位"仅服务唱高音 High C，对说话无意义甚至有害。</p>
+    <p style="margin-bottom: 0;"><strong>口吃训练误区：</strong>追求 0% 口吃；只在低压情境用 DAF；只用单一方法；因怕口吃而少用某种语言。</p>
+  </div>
+
+  <div class="essay" style="margin-top: 32px;">
+    <span class="kicker">A core shift</span>
+    <p>你不是在练习"<span class="strike">发出更好的声音</span>"，你是在练习"<strong>放下错误的代偿</strong>"。</p>
+    <p style="font-size: 14px; line-height: 1.85; color: var(--ink-soft);">自渡鹏鹏说"嗓子越放松越好，动力让腰腹解决"；ASHA 言语病理学说 MTD 治疗核心是"释放"；ARTS 口吃疗法说"挣扎和回避才是问题，不是口吃本身"；Alexander Technique 说"不做（inhibition）比做更重要"。四条在不同领域用不同语言说同一件事——你已有的紧张/代偿是问题，松开它们才是出路。</p>
+  </div>
+
+</section>
+
+<!-- ============ TAB: EXPORT ============ -->
+<section id="export" class="panel" role="tabpanel">
+
+  <span class="kicker">Backup &amp; export</span>
+  <h2 style="margin-top: 0">导出 / 备份</h2>
+  <p class="lede">追踪数据保存在 Claude 的 artifact storage 里，跨会话保留。但建议每月手动备份一次 JSON——以防意外。</p>
+
+  <div class="export-actions">
+    <button class="export-card" onclick="window.print()">
+      <div class="ico">P</div>
+      <div class="name">打印 / 另存为 PDF</div>
+      <div class="desc">浏览器打印预览 → 选 "Save as PDF"。所有 5 个 tab 全部输出，适合归档。</div>
+    </button>
+    <button class="export-card" id="btn-export-json">
+      <div class="ico">J</div>
+      <div class="name">导出追踪数据 (JSON)</div>
+      <div class="desc">下载所有自评记录为 .json 文件。可在另一台机器恢复。</div>
+    </button>
+    <button class="export-card" id="btn-export-md">
+      <div class="ico">M</div>
+      <div class="name">导出训练计划 (Markdown)</div>
+      <div class="desc">完整的计划文档，可在 Word / Notion / Obsidian 打开。</div>
+    </button>
+    <button class="export-card" id="btn-import-json">
+      <div class="ico">↑</div>
+      <div class="name">从备份恢复</div>
+      <div class="desc">上传之前导出的 JSON 文件，覆盖当前追踪数据。</div>
+    </button>
+    <input type="file" id="file-input" accept=".json" style="display:none">
+    <button class="export-card" id="btn-clear" style="border-color: var(--line-accent);">
+      <div class="ico" style="background: #f5dada; color: var(--danger);">!</div>
+      <div class="name" style="color: var(--danger);">清空所有追踪数据</div>
+      <div class="desc">删除所有自评记录。建议先导出 JSON 备份。</div>
+    </button>
+  </div>
+
+  <h3>当前状态</h3>
+  <div class="card" id="storage-status" style="font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); line-height: 2;">
+    加载中…
+  </div>
+
+</section>
+
+<div class="footer">
+  Built for Jack · Daily voice rehabilitation · v1.0
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+// ============================================================
+// DATA
+// ============================================================
+
+const MODULES_FULL = [
+  { id: 1, name: "姿势重置 + 觉察", duration: 240, target: "解决：体态、僵硬", tag: "姿势",
+    steps: ["Alexander 半仰卧休息（膝弯曲、头垫薄书、双手放腹）2 分钟", "起身 cat-cow ×8", "Wall angels ×10", "Chin tuck ×8"] },
+  { id: 2, name: "呼吸 + 胸廓激活", duration: 420, target: "解决：中气不足、僵硬", tag: "呼吸",
+    steps: ["仰卧 360° 闻花香腹式呼吸 4 吸-6 呼 ×10（手放下肋监测外扩）", "坐姿 SSSS 控气 4 吸-12-15 呼 ×5", "站姿叹气式 /ha/ ×10", "数枣 一口气 ×2"] },
+  { id: 3, name: "喉/下颌/舌根释放", duration: 300, target: "解决：含嗓、嗓痛、僵硬", tag: "释放",
+    steps: ["颈部已热敷 10 min（提前完成）", "自我环喉按摩每侧 ×10", "舌骨上肌按 30 秒 + SCM 拉伸 30 秒（避开颈动脉）", "咬肌按摩 + 下巴抖动 ×30", "舌伸展 + /la-ya/ 滑音", "半打哈欠 a 音 ×5"] },
+  { id: 4, name: "SOVT + 共鸣核心", duration: 540, target: "解决：含嗓、嗓痛、共鸣", tag: "共鸣",
+    steps: ["唇颤音 1.5 min（任意舒适音高，可走音阶）", "吸管发声 + low-high-low siren 1.5 min", "吸管入水 Lax Vox 1 min（水下 1-2 cm，看气泡稳定）", "哼鸣 /m/-/n/-/ŋ/ 1.5 min", "/ŋ/→/a/ 过渡保持位置 1.5 min", "哼鸣 ×30 悠长不颤 2 min"] },
+  { id: 5, name: "弱→强控制 + 前置共鸣", duration: 300, target: "解决：含嗓、声带闭合", tag: "控制",
+    steps: ["弱控制 a 音降调 ×10", "强控制 ha 音 ×8 组（腰腹催气，胸口不收紧）", "l-i 带 a 滑音找声挂前腭 ×10", "\"mama me my mo mu\" 滑音", "/ni-ni-ni/ 5 度音阶"] },
+  { id: 6, name: "咬字朗读模块", duration: 600, target: "解决：含嗓、吐字、共鸣输出", tag: "朗读",
+    steps: ["提打挺松口部操（颧肌 + 打牙关 + 挺软腭 + 松下巴 ×10 秒×3）", "当日声母重点字组（见每周轮换）", "绕口令 3 条 慢-快-自然", "古诗或散文段落（朱自清《春》/《沁园春·雪》）", "录音 30 秒 + 回听"] },
+  { id: 7, name: "口吃专项整合", duration: 180, target: "解决：口吃、紧张代偿", tag: "口吃",
+    steps: ["Easy onset 词列（vowel-initial 英文 + 中文 Tone 3/4：好、买、想、是、对、看）", "Carrier phrase \"I want ___\" / \"我想要 ___\" ×3 句", "Preparatory set 预演 3 个明日难句（人名、术语、客户名）"] },
+  { id: 8, name: "冷却 + 自评", duration: 120, target: "防止训练后疲劳", tag: "冷却",
+    steps: ["哼鸣下行音阶 30 秒", "喝温水", "30 秒沉默感受喉部状态", "切换到「自评追踪」打分（笔记 1 行）"] }
+];
+
+const MODULES_RECOVERY = [
+  { id: 1, name: "颈热敷 + 喉按摩", duration: 180, target: "嗓子累/疼恢复版第 1 步", tag: "热敷",
+    steps: ["颈部已热敷 10 min（提前完成）", "自我环喉按摩每侧 ×10", "舌骨上肌按 30 秒", "SCM 拉伸 30 秒（避开颈动脉）"] },
+  { id: 2, name: "SOVT 恢复 ①", duration: 240, target: "嗓子修复·吸管发声", tag: "SOVT",
+    steps: ["吸管发声（细吸管，不入水）2 min：发 /u/，音高低-中-低 siren", "暂停 30 秒，喝温水", "吸管入水 Lax Vox 2 min（水下 1-2 cm，气泡稳定）"] },
+  { id: 3, name: "SOVT 恢复 ②", duration: 240, target: "嗓子修复·重复",
+    tag: "SOVT", steps: ["唇颤音 2 min（很轻、很慢）", "吸管发声 2 min（音高滑动）"] },
+  { id: 4, name: "SOVT 恢复 ③", duration: 240, target: "嗓子修复·重复",
+    tag: "SOVT", steps: ["吸管入水 2 min", "哼鸣下行音阶 2 min（很轻）"] },
+  { id: 5, name: "哼鸣冷却", duration: 180, target: "总冷却", tag: "冷却",
+    steps: ["哼鸣下行音阶 1.5 min", "30 秒沉默 + 感受喉部"] }
+];
+
+const MODULES_LITE = [
+  { id: 1, name: "姿势重置 + 觉察", duration: 240, target: "建立体态地基", tag: "姿势",
+    steps: ["Alexander 半仰卧休息 2 min", "Cat-cow ×8 + Wall angels ×10 + Chin tuck ×8"] },
+  { id: 2, name: "呼吸 + 胸廓激活", duration: 600, target: "第一周重点：把呼吸练到无意识也对", tag: "呼吸",
+    steps: ["仰卧 360° 闻花香腹式呼吸 4 吸-6 呼 ×15（手放下肋监测）", "坐姿 SSSS 控气 4 吸-12 呼 ×8", "站姿叹气式 /ha/ ×10", "数枣 一口气 ×3"] },
+  { id: 3, name: "喉部释放", duration: 480, target: "建立放松基线", tag: "释放",
+    steps: ["颈热敷已完成 → 自我环喉按摩 ×10/侧", "舌骨上肌 30 秒 + SCM 拉伸 30 秒", "咬肌按摩 + 下巴抖动 ×30", "半打哈欠 a 音 ×8（找喉部敞开感）"] },
+  { id: 4, name: "口吃专项 + 录基线", duration: 300, target: "第一周必做：录基线", tag: "口吃",
+    steps: ["Easy onset 词列 5 个", "录基线 2 分钟自由说话", "列出今天观察到的次级口吃行为（眨眼、垫词、回避词等）"] },
+  { id: 5, name: "冷却 + 自评", duration: 180, target: "安全收尾", tag: "冷却",
+    steps: ["哼鸣下行 30 秒", "喝温水", "切换「自评追踪」记录今日"] }
+];
+
+const METRICS = [
+  { id: "fatigue", label: "嗓子疲劳", desc: "说 30 min 后（10 = 完全无感）", min: 0, max: 10, dir: "high", default: 5 },
+  { id: "clarity", label: "含嗓程度", desc: "明亮 vs 闷（10 = 明亮前置）", min: 0, max: 10, dir: "high", default: 5 },
+  { id: "breath", label: "气息从容度", desc: "长说时（10 = 气息从容不抢气）", min: 0, max: 10, dir: "high", default: 5 },
+  { id: "tension", label: "放松程度", desc: "下颌 / 舌根 / 肩颈（10 = 完全放松）", min: 0, max: 10, dir: "high", default: 5 },
+  { id: "si_seconds", label: "Si 音持续秒数", desc: "客观计时（目标第 4 周比第 1 周 +30%）", min: 0, max: 60, dir: "high", default: 15, unit: "秒" },
+  { id: "ssp", label: "口吃率 %SS", desc: "2 min 自由说话 / 100 音节口吃数（越低越好）", min: 0, max: 30, dir: "low", default: 5, unit: "%" },
+  { id: "camperdown", label: "Camperdown 严重度", desc: "9 点量表（1 最重、9 最轻 → 越高越好）", min: 1, max: 9, dir: "high", default: 5 },
+  { id: "naturalness", label: "自然度", desc: "9 点量表（目标 ≥7/9）", min: 1, max: 9, dir: "high", default: 5 },
+  { id: "breathing_360", label: "360° 扩张感", desc: "下肋四周扩（10 = 四周均扩）", min: 0, max: 10, dir: "high", default: 5 },
+  { id: "thoracic_rom", label: "胸椎旋转 ROM", desc: "与 PT 协同评估（10 = 顺畅）", min: 0, max: 10, dir: "high", default: 5 }
+];
+
+const EXERCISES = [
+  { n: 1, cat: "气息", name: "闻花香腹式呼吸", target: "气息下沉、解除胸式呼吸", how: "仰卧/坐立，鼻吸想象闻花香，肚子鼓起、胸不抬", freq: "每天 5–10 min", url: "https://zhuanlan.zhihu.com/p/403453001" },
+  { n: 2, cat: "气息", name: "腹壁站定", target: "吸气后保持气压", how: "吸饱→腹壁顶住→缓慢呼出，腹部尽量保持鼓起", freq: "入门后叠加", url: "https://zhuanlan.zhihu.com/p/403453001" },
+  { n: 3, cat: "气息", name: "Si 音长音", target: "稳定呼气、治句尾掉气", how: "匀速发 \"si——\"，不颤抖、稳定持续", freq: "每天延长秒数", url: "https://www.zhihu.com/question/26437498" },
+  { n: 4, cat: "气息", name: "狗喘气", target: "横膈膜弹跳、快换气", how: "吸气小腹鼓、呼气回落，胸/肩不动，节奏统一", freq: "每天，不舒服立即停", url: "https://zhuanlan.zhihu.com/p/104722893" },
+  { n: 5, cat: "气息", name: "苏炳添吹气球", target: "气息负重训练", how: "走路同时缓慢吹气球，把气送完", freq: "日常碎片化", url: "https://zhuanlan.zhihu.com/p/463864881" },
+  { n: 6, cat: "气息", name: "数枣", target: "一口气换气控制", how: "\"出东门过大桥…\" 一口气数完才算好", freq: "每天，逐步加量", url: "https://www.zhihu.com/question/586149619" },
+  { n: 7, cat: "气息", name: "强控制 ha 音", target: "高密度气息 + 稳定闭合", how: "\"哈！哈！哈！\" 7–8 个，腰腹催气，胸口不收紧", freq: "数十组/天", url: "https://www.zhihu.com/question/30760821" },
+  { n: 8, cat: "气息", name: "弱控制 a 音降调", target: "去捏挤、去尖锐", how: "高位起音→缓慢下滑到最低，松弛不挤", freq: "每天", url: "https://www.zhihu.com/question/30760821" },
+
+  { n: 9, cat: "释放", name: "5 步叹气解放喉咙", target: "治压喉、找喉部敞开", how: "无声叹→wu 叹→eng 叹→半哈欠 a→推墙感", freq: "每动作 5 次", url: "https://www.zhihu.com/question/378472083" },
+  { n: 10, cat: "释放", name: "半打哈欠 a 音", target: "反向规避喉音", how: "真打哈欠 / 找呕吐感记住状态，迁移到日常", freq: "每次练声前", url: "https://zhuanlan.zhihu.com/p/65736433" },
+  { n: 11, cat: "释放", name: "气泡音", target: "找最弱声带闭合点", how: "减弱气息、放松声带、保持闭合，\"咕嘟\"低频", freq: "清晨 5–10 min", url: "https://zhuanlan.zhihu.com/p/38407570" },
+  { n: 12, cat: "释放", name: "气泡音转 a 音", target: "在闭合状态下加大气流", how: "气泡音保持→慢慢加气→自然变 a 音", freq: "进阶", url: "https://zhuanlan.zhihu.com/p/38407570" },
+  { n: 13, cat: "释放", name: "环喉自我按摩", target: "降低喉位、缓 MTD", how: "颈热敷后用拇食指夹甲状软骨外缘画圈下推（避开颈动脉）", freq: "每侧 ≥10 次/天", url: "https://www.zhihu.com/question/378472083" },
+  { n: 14, cat: "释放", name: "下巴抖动放松", target: "松下巴防代偿", how: "拳背顶下巴空咬，左右摇摆", freq: "30 次/天", url: "https://zhuanlan.zhihu.com/p/102269396" },
+
+  { n: 15, cat: "共鸣", name: "唇颤音（打嘟）", target: "同时放松下颌 + 稳气息（SOVT）", how: "双唇放松、均匀吹气连续颤动；新手用拇食指托腮", freq: "每天 5–10 min 开嗓", url: "https://zhuanlan.zhihu.com/p/1982780844180517432" },
+  { n: 16, cat: "共鸣", name: "吸管发声 (SOVT)", target: "降低 PTP、修复声带", how: "细吸管发 /u/ 音，音高低-中-低 siren；阻力强", freq: "每天 5 min，疼时 ×3 次/天", url: "https://www.torontospeechtherapy.com/blog/2024/the-power-of-straw-phonation-exploring-sovt-exercises/" },
+  { n: 17, cat: "共鸣", name: "吸管入水 (Lax Vox)", target: "降低 PTP、感受气流稳定", how: "吸管入水 1-2 cm 发 /u/，看气泡稳定 = 气流稳定", freq: "每天 1-2 min", url: "https://www.torontospeechtherapy.com/blog/2024/the-power-of-straw-phonation-exploring-sovt-exercises/" },
+  { n: 18, cat: "共鸣", name: "哼鸣（嗯——）", target: "嗓音治疗核心、找舒适位置", how: "鼻吸→愉快情绪→提颧肌→4–5 秒不颤悠长", freq: "每天 30 次", url: "https://www.zhihu.com/question/20872406/answer/2652188456" },
+  { n: 19, cat: "共鸣", name: "哼鸣过渡 a 音", target: "把共鸣位置带到口腔", how: "哼鸣保持位置→张口为 a，位置不变", freq: "每天", url: "https://www.zhihu.com/question/20872406/answer/2652188456" },
+  { n: 20, cat: "共鸣", name: "l-i 带 a 滑音", target: "建立声音前送意识（声挂前腭）", how: "\"li-a\"、\"i-a\" 滑音感受声挂前腭", freq: "每天", url: "https://zhuanlan.zhihu.com/p/65736433" },
+
+  { n: 21, cat: "口腔", name: "舌部操", target: "口腔强控制、降唾液", how: "舌尖顶左右内颊×30、顶硬腭弹 \"de/te\"×30、伸缩、绕齿圈", freq: "每天 1–2 组", url: "https://www.zhihu.com/question/50920828" },
+  { n: 22, cat: "口腔", name: "提颧肌", target: "日常发声习惯化", how: "双指放鼻孔两侧颧肌处，说话时保持轻紧 + 嘴角上扬", freq: "日常 + 10 秒×15 次", url: "https://zhuanlan.zhihu.com/p/57741308" },
+  { n: 23, cat: "口腔", name: "啃苹果空咬（打牙关）", target: "松牙关、扩后口腔", how: "想象啃苹果柔和打开上口盖，下巴放松", freq: "练声前", url: "https://zhuanlan.zhihu.com/p/102269396" },
+  { n: 24, cat: "口腔", name: "提打挺松四件套", target: "口腔积极态总纲", how: "提颧肌、打牙关、挺软腭、松下巴", freq: "全程贯穿", url: "https://zhuanlan.zhihu.com/p/102269396" },
+
+  { n: 25, cat: "朗读", name: "字头-字腹-字尾动程", target: "吐字饱满 \"枣核形\"", how: "\"来\" = l 抵上颚→a 放平打开→i 闭合归位", freq: "每天朗读时", url: "https://zhuanlan.zhihu.com/p/57120799" },
+  { n: 26, cat: "朗读", name: "含枣 / 含糖朗读", target: "突破舌肌惰性", how: "含小糖粒朗读，努力清晰", freq: "每天数分钟", url: "https://www.zhihu.com/question/38997484" },
+  { n: 27, cat: "朗读", name: "弱控制绕口令", target: "小气息小音量精确控制", how: "八百标兵 / 扁担板凳 / 四是四十，很小音量完成", freq: "每天", url: "https://www.zhihu.com/question/30760821" },
+  { n: 28, cat: "朗读", name: "30 天大声朗读 + 复述", target: "突破吐字不清", how: "前期大声朗读，后期改用自己的话复述", freq: "30 天连续", url: "https://www.zhihu.com/question/23486560/answer/473068210" },
+
+  { n: 29, cat: "口吃", name: "Easy Onset（轻起声）", target: "防硬起声、口吃流畅塑造核心", how: "用 /h/ 引导：\"hhhh-aaa\"，气流先于声", freq: "每天 5 min", url: "https://theadultspeechtherapyworkbook.com/easy-onset/" },
+  { n: 30, cat: "口吃", name: "Light Articulatory Contact", target: "轻接触辅音不挤压", how: "p/t/k 等辅音轻触不爆破", freq: "每天朗读时叠加", url: "https://lumaspeech.com/blog/fluency-therapy-stuttering-techniques/" },
+  { n: 31, cat: "口吃", name: "Voluntary Stuttering（脱敏）", target: "ARTS 核心：放下回避", how: "在低压场景每天主动轻度口吃 3-5 次", freq: "第 4 周开始", url: "https://lumaspeech.com/blog/fluency-therapy-stuttering-techniques/" }
+];
+
+const CATEGORIES = ["全部", "气息", "释放", "共鸣", "口腔", "朗读", "口吃"];
+
+const PROBLEMS = [
+  { n: "01", name: "含嗓 / 模糊", diag: "压喉 + 后腔共鸣 + 口腔无力" },
+  { n: "02", name: "中气不足 / 嗓痛", diag: "气息没下沉，嗓子代偿" },
+  { n: "03", name: "僵硬", diag: "真正发力位找不到，喉部代偿" },
+  { n: "04", name: "口吃", diag: "气短紧张代偿 + 字音动程不到位" },
+  { n: "05", name: "体态", diag: "久坐 → 胸廓僵 → 浅呼吸链" }
+];
+
+const WEEKS = [
+  { wk: "Week 1", name: "打基础", dur: "30 min/天", body: [
+    "只做模块 ①②③⑦ 的简化版。重点是建立<em>觉察</em>——每次呼吸都要手按下肋监测 360° 扩张，每次发声都要用耳返监听。",
+    "咬字朗读和共鸣完全不练。本周目标：把闻花香腹式呼吸练到无意识也能正确做——这是后续一切的地基。",
+    "每天追加：录基线 2 分钟自由说话 + 列出所有次级口吃行为清单（眨眼、点头、垫词嗯啊、回避词等）。"
+  ]},
+  { wk: "Week 2", name: "加共鸣", dur: "35 min/天", body: [
+    "保留 ①②③，加入模块 ④⑤ 完整版（SOVT + 共鸣 + 弱强控制）。重点是<em>找到前置共鸣的嗡嗡感</em>。",
+    "嗡嗡感是<em>结果不是目标</em>，追求的是高效声带闭合。",
+    "本周用 Stamurai 或 DAF Online 做一次 30 秒朗读测试，记录口吃率是否减少 ≥30%（决定 DAF 对你是否有效）。引入 <em>pull-out</em>：在轻度阻塞时主动放慢滑出。"
+  ]},
+  { wk: "Week 3", name: "加咬字朗读", dur: "45 min 满档", body: [
+    "完整执行 8 个模块。重点是把 <em>提打挺松</em> 内化成日常说话习惯——上班开会时手放颧肌位置自检。",
+    "引入 <em>preparatory set</em>：在难发音前主动软起声预演。中文加 5 分钟 Tone 3/4 词列。",
+    "Camperdown 风格 Plan-Do-Reflect：每个工作日选一次发言（standup），事先预演、事中执行、事后录音复盘。"
+  ]},
+  { wk: "Week 4", name: "整合实战", dur: "45 min + 实战", body: [
+    "训练计划不变，但每天主动安排<em>一次压力情境</em>——电话、电梯 pitch、code review 主讲、presentation Q&A 之一。用 9 点量表评估实战。",
+    "引入 <em>voluntary stuttering</em>：每天在低压场景轻度自愿口吃 3-5 次（脱敏）。",
+    "自我披露一次：在 barista 或同事处说 \"sorry, I sometimes stutter\"。本周末考虑联系 USyd ASRC 或 Banter Speech 做正式 SLP 评估。"
+  ]}
+];
+
+const ROTATION = [
+  { d: "一", c: "唇音 b/p/m/f", t: "八百标兵奔北坡 · 朱自清《春》" },
+  { d: "二", c: "舌尖中 d/t/n/l", t: "调到敌岛打特盗 · 《荷塘月色》" },
+  { d: "三", c: "舌根 g/k/h", t: "粉红凤凰挂粉墙 · 苏轼《念奴娇》" },
+  { d: "四", c: "舌面 j/q/x", t: "四和十 / 十四四十 · 《将进酒》" },
+  { d: "五", c: "翘舌 zh/ch/sh/r", t: "杂志社出杂志 · 史铁生《我与地坛》" },
+  { d: "六", c: "平舌 z/c/s", t: "四十四棵柿子树 · 央视新闻稿" },
+  { d: "日", c: "综合 + 长气", t: "数枣（一口气）· 自选 + 给朋友讲今日" }
+];
+
+const RESOURCES = [
+  { pri: "★★★", name: "如何保护嗓子？", desc: "嗓子哑 / 累的根本机制 + 强弱控制 + 哼鸣方案", url: "https://www.zhihu.com/question/20872406/answer/2652188456" },
+  { pri: "★★★", name: "打破声音负循环 拯救你的嗓音", desc: "精准打击思路、4 周一周期", url: "https://zhuanlan.zhihu.com/p/416035250" },
+  { pri: "★★★", name: "如何用丹田发声？", desc: "两头紧中间松总纲 + 丹田定位 + 找力", url: "https://zhuanlan.zhihu.com/p/55849962" },
+  { pri: "★★★", name: "腹式呼吸训练遇到困难如何解决？", desc: "闻花香完整教程 + 常见错误", url: "https://zhuanlan.zhihu.com/p/403453001" },
+  { pri: "★★", name: "什么是声挂前腭？", desc: "前置共鸣完整理论", url: "https://zhuanlan.zhihu.com/p/373055201" },
+  { pri: "★★", name: "说话压着喉咙怎么救？", desc: "5 步叹气解放喉咙", url: "https://www.zhihu.com/question/378472083" },
+  { pri: "★★", name: "错误发声纠正系列(1)：喉音", desc: "治压喉 / 喉音四步", url: "https://zhuanlan.zhihu.com/p/65736433" },
+  { pri: "★★", name: "怎样说话不废嗓？虚实结合", desc: "长时间用嗓不疲劳的关键", url: "https://zhuanlan.zhihu.com/p/141076837" },
+  { pri: "★", name: "怎样练习气泡音", desc: "气泡音原理 + 做法 + 转 a 音", url: "https://zhuanlan.zhihu.com/p/38407570" },
+  { pri: "★", name: "如何让声音低沉浑厚有磁性", desc: "共鸣体系 + 常见误区批判", url: "https://zhuanlan.zhihu.com/p/577123267" },
+  { pri: "↗", name: "全部专栏入口（《跟鹏鹏老师学发声》）", desc: "200+ 篇汇总", url: "https://zhuanlan.zhihu.com/shuohua" }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+
+const state = {
+  currentTab: "today",
+  modules: MODULES_FULL,
+  variantKey: "full",
+  currentModuleIdx: 0,
+  remaining: MODULES_FULL[0].duration,
+  running: false,
+  intervalId: null,
+  audioCtx: null,
+  opts: {
+    chime: true,
+    speak: true,
+    autonext: true
+  },
+  history: [],            // array of {date, metrics}
+  todayMetrics: {},
+  selectedCat: "全部",
+  searchQuery: "",
+  selectedWeek: 0
+};
+
+// ============================================================
+// UTIL
+// ============================================================
+
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+function todayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function fmtDate(key) {
+  const [y, m, d] = key.split("-");
+  return `${y}.${m}.${d}`;
+}
+
+function pad2(n) { return String(n).padStart(2, "0"); }
+function fmtMMSS(seconds) {
+  const m = Math.max(0, Math.floor(seconds / 60));
+  const s = Math.max(0, seconds % 60);
+  return `${pad2(m)}:${pad2(s)}`;
+}
+
+function showToast(msg, dur = 2000) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove("show"), dur);
+}
+
+// ============================================================
+// STORAGE — graceful with try/catch
+// ============================================================
+
+async function storeGet(key) {
+  try {
+    if (!window.storage) return null;
+    const r = await window.storage.get(key, false);
+    return r ? r.value : null;
+  } catch (e) { return null; }
+}
+async function storeSet(key, val) {
+  try {
+    if (!window.storage) return false;
+    await window.storage.set(key, val, false);
+    return true;
+  } catch (e) { return false; }
+}
+async function storeDel(key) {
+  try {
+    if (!window.storage) return false;
+    await window.storage.delete(key, false);
+    return true;
+  } catch (e) { return false; }
+}
+async function storeList(prefix) {
+  try {
+    if (!window.storage) return [];
+    const r = await window.storage.list(prefix, false);
+    return (r && r.keys) || [];
+  } catch (e) { return []; }
+}
+
+// ============================================================
+// AUDIO
+// ============================================================
+
+function ensureAudio() {
+  if (!state.audioCtx) {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (Ctx) state.audioCtx = new Ctx();
+  }
+  return state.audioCtx;
+}
+
+function chime(kind = "single") {
+  if (!state.opts.chime) return;
+  const ctx = ensureAudio();
+  if (!ctx) return;
+  const beep = (freq, when, dur = 0.6, gain = 0.18) => {
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    g.gain.setValueAtTime(0, ctx.currentTime + when);
+    g.gain.linearRampToValueAtTime(gain, ctx.currentTime + when + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + when + dur);
+    osc.connect(g).connect(ctx.destination);
+    osc.start(ctx.currentTime + when);
+    osc.stop(ctx.currentTime + when + dur + 0.05);
+  };
+  if (kind === "single") {
+    beep(587, 0); // D5
+  } else if (kind === "transition") {
+    beep(523, 0);     // C5
+    beep(659, 0.15);  // E5
+  } else if (kind === "complete") {
+    beep(523, 0);
+    beep(659, 0.18);
+    beep(784, 0.36);  // G5
+    beep(1046, 0.54, 1.0); // C6
+  } else if (kind === "tick") {
+    beep(880, 0, 0.08, 0.08);
+  }
+}
+
+function speakText(text) {
+  if (!state.opts.speak) return;
+  if (!("speechSynthesis" in window)) return;
+  try {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "zh-CN";
+    u.rate = 0.95;
+    u.pitch = 1.0;
+    u.volume = 0.85;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  } catch (e) { /* ignore */ }
+}
+
+// ============================================================
+// TIMER
+// ============================================================
+
+function totalDuration() {
+  return state.modules.reduce((s, m) => s + m.duration, 0);
+}
+function elapsedTotal() {
+  let e = 0;
+  for (let i = 0; i < state.currentModuleIdx; i++) e += state.modules[i].duration;
+  e += (state.modules[state.currentModuleIdx].duration - state.remaining);
+  return e;
+}
+
+function loadModule(idx, autostart = false) {
+  state.currentModuleIdx = idx;
+  state.remaining = state.modules[idx].duration;
+  renderTimer();
+  if (autostart) startTimer();
+}
+
+function renderTimer() {
+  const m = state.modules[state.currentModuleIdx];
+  $("#module-num").textContent = `${pad2(state.currentModuleIdx + 1)} / ${pad2(state.modules.length)}`;
+  $("#module-tag").textContent = m.tag;
+  $("#timer-name").textContent = m.name;
+  $("#timer-target").textContent = m.target;
+  const display = $("#timer-display");
+  const mm = pad2(Math.floor(state.remaining / 60));
+  const ss = pad2(state.remaining % 60);
+  display.innerHTML = `<span>${mm}</span><span class="sep">:</span><span>${ss}</span>`;
+  display.classList.toggle("running", state.running);
+
+  // steps
+  const ol = $("#timer-steps");
+  ol.innerHTML = m.steps.map(s => `<li>${s}</li>`).join("");
+
+  // total elapsed
+  $("#total-elapsed").textContent = `总进度 ${fmtMMSS(elapsedTotal())} / ${fmtMMSS(totalDuration())}`;
+
+  // progress bar
+  const pct = (elapsedTotal() / totalDuration()) * 100;
+  $(".timer-stage").style.setProperty("--progress", `${pct}%`);
+
+  // start button
+  $("#btn-start").textContent = state.running ? "❚❚ 暂停" : "▶ 开始";
+
+  renderRail();
+}
+
+function renderRail() {
+  const rail = $("#rail");
+  rail.innerHTML = state.modules.map((m, i) => {
+    const cls = i < state.currentModuleIdx ? "done"
+              : i === state.currentModuleIdx ? "current"
+              : "";
+    return `<div class="rail-item ${cls}" data-idx="${i}">
+      <span class="rail-num">${pad2(i+1)}</span>
+      <span class="rail-time">${fmtMMSS(m.duration)}</span>
+      <span class="rail-name">${m.name}</span>
+      <span class="rail-status">${i < state.currentModuleIdx ? "完成" : i === state.currentModuleIdx ? (state.running ? "进行中" : "待开始") : ""}</span>
+    </div>`;
+  }).join("");
+  $$(".rail-item", rail).forEach(el => {
+    el.addEventListener("click", () => {
+      const idx = parseInt(el.dataset.idx, 10);
+      pauseTimer();
+      loadModule(idx);
+    });
+  });
+}
+
+function startTimer() {
+  if (state.running) return;
+  ensureAudio();
+  state.running = true;
+  state.intervalId = setInterval(() => {
+    state.remaining -= 1;
+    if (state.remaining <= 0) {
+      handleModuleEnd();
+    } else {
+      renderTimer();
+    }
+  }, 1000);
+  renderTimer();
+}
+
+function pauseTimer() {
+  if (!state.running) return;
+  state.running = false;
+  clearInterval(state.intervalId);
+  state.intervalId = null;
+  renderTimer();
+}
+
+function handleModuleEnd() {
+  pauseTimer();
+  const isLast = state.currentModuleIdx === state.modules.length - 1;
+  if (isLast) {
+    chime("complete");
+    speakText("训练完成。请切换到自评追踪。");
+    showToast("训练完成 ✓ 请切换到自评追踪");
+    state.remaining = 0;
+    renderTimer();
+    return;
+  }
+  if (state.opts.autonext) {
+    chime("transition");
+    const next = state.modules[state.currentModuleIdx + 1];
+    speakText(`下一模块。${next.name}`);
+    setTimeout(() => {
+      loadModule(state.currentModuleIdx + 1, true);
+    }, 1800);
+  } else {
+    chime("transition");
+    state.remaining = 0;
+    renderTimer();
+  }
+}
+
+function resetTimer() {
+  pauseTimer();
+  loadModule(0);
+}
+
+function changeVariant(key) {
+  pauseTimer();
+  state.variantKey = key;
+  state.modules = key === "recovery" ? MODULES_RECOVERY
+                : key === "lite" ? MODULES_LITE
+                : MODULES_FULL;
+  loadModule(0);
+}
+
+// ============================================================
+// TRACKER
+// ============================================================
+
+function renderTrackerForm() {
+  const wrap = $("#tracker-rows");
+  wrap.innerHTML = METRICS.map(m => {
+    const v = state.todayMetrics[m.id] !== undefined ? state.todayMetrics[m.id] : m.default;
+    const unit = m.unit || "";
+    return `<div class="tracker-row">
+      <div class="tracker-label">
+        <div class="name">${m.label}</div>
+        <div class="desc">${m.desc}</div>
+      </div>
+      <input class="slider" type="range" min="${m.min}" max="${m.max}" value="${v}" step="1" data-metric="${m.id}">
+      <div class="slider-value" data-value="${m.id}">${v}<span class="unit">${unit}</span></div>
+    </div>`;
+  }).join("");
+  $$(".slider", wrap).forEach(slider => {
+    slider.addEventListener("input", (e) => {
+      const id = e.target.dataset.metric;
+      const v = parseInt(e.target.value, 10);
+      state.todayMetrics[id] = v;
+      const valEl = wrap.querySelector(`[data-value="${id}"]`);
+      const m = METRICS.find(x => x.id === id);
+      const unit = m.unit || "";
+      valEl.innerHTML = `${v}<span class="unit">${unit}</span>`;
+      $("#entry-status").textContent = "未保存（已修改）";
+      $("#entry-status").style.color = "var(--accent)";
+    });
+  });
+  $("#entry-date").textContent = fmtDate(todayKey());
+}
+
+async function saveEntry() {
+  const key = `tracker:${todayKey()}`;
+  const payload = {
+    date: todayKey(),
+    metrics: { ...state.todayMetrics },
+    savedAt: new Date().toISOString()
+  };
+  // ensure all metrics have values
+  METRICS.forEach(m => {
+    if (payload.metrics[m.id] === undefined) payload.metrics[m.id] = m.default;
+  });
+  const ok = await storeSet(key, JSON.stringify(payload));
+  if (ok) {
+    $("#entry-status").textContent = `已保存 · ${new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"})}`;
+    $("#entry-status").style.color = "var(--muted)";
+    showToast("✓ 今日记录已保存");
+    await loadHistory();
+    renderSparklines();
+    renderStreak();
+    renderStorageStatus();
+  } else {
+    showToast("保存失败 — storage 可能未启用");
+  }
+}
+
+async function loadTodayEntry() {
+  const key = `tracker:${todayKey()}`;
+  const raw = await storeGet(key);
+  if (!raw) {
+    state.todayMetrics = {};
+    METRICS.forEach(m => state.todayMetrics[m.id] = m.default);
+    $("#entry-status").textContent = "尚未保存";
+    return;
+  }
+  try {
+    const parsed = JSON.parse(raw);
+    state.todayMetrics = { ...parsed.metrics };
+    $("#entry-status").textContent = `今日已保存 · 可继续修改`;
+  } catch (e) {
+    state.todayMetrics = {};
+    METRICS.forEach(m => state.todayMetrics[m.id] = m.default);
+  }
+}
+
+async function loadYesterday() {
+  // try last 7 days for closest entry
+  const today = new Date();
+  for (let i = 1; i <= 7; i++) {
+    const d = new Date(today.getTime() - i*86400000);
+    const key = `tracker:${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+    const raw = await storeGet(key);
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        state.todayMetrics = { ...parsed.metrics };
+        renderTrackerForm();
+        showToast(`✓ 已载入 ${fmtDate(parsed.date)} 的数据`);
+        $("#entry-status").textContent = "未保存（已载入历史）";
+        $("#entry-status").style.color = "var(--accent)";
+        return;
+      } catch (e) {}
+    }
+  }
+  showToast("过去 7 天没有保存的记录");
+}
+
+async function loadHistory() {
+  const keys = await storeList("tracker:");
+  const entries = [];
+  for (const k of keys) {
+    const raw = await storeGet(k);
+    if (!raw) continue;
+    try {
+      const parsed = JSON.parse(raw);
+      entries.push(parsed);
+    } catch (e) {}
+  }
+  entries.sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+  state.history = entries;
+}
+
+function renderStreak() {
+  const wrap = $("#streak");
+  if (state.history.length === 0) {
+    wrap.innerHTML = `<div class="streak-stat"><span class="num">0</span><span class="label">尚无记录</span></div>
+      <div style="color: var(--muted); font-size: 13px; align-self: center;">保存第一条记录后开始追踪</div>`;
+    return;
+  }
+  // total days
+  const total = state.history.length;
+  // current streak
+  let streak = 0;
+  const today = new Date();
+  const dates = new Set(state.history.map(h => h.date));
+  for (let i = 0; ; i++) {
+    const d = new Date(today.getTime() - i*86400000);
+    const k = `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+    if (dates.has(k)) streak++;
+    else if (i > 0) break; // gap
+    if (i > 90) break;
+  }
+  // last 7 days score
+  const recent7 = state.history.slice(-7);
+  const avg7 = recent7.length ? Math.round(recent7.reduce((s, h) => {
+    // average of "high direction" metrics
+    let a = 0, c = 0;
+    METRICS.filter(m => m.dir === "high").forEach(m => {
+      const v = h.metrics[m.id];
+      if (typeof v === "number") {
+        const norm = (v - m.min) / (m.max - m.min) * 10;
+        a += norm; c += 1;
+      }
+    });
+    return s + (c ? a / c : 0);
+  }, 0) / recent7.length * 10) / 10 : 0;
+
+  wrap.innerHTML = `
+    <div class="streak-stat"><span class="num">${total}</span><span class="label">总记录天数</span></div>
+    <div class="streak-stat"><span class="num">${streak}</span><span class="label">当前连续</span></div>
+    <div class="streak-stat"><span class="num">${avg7.toFixed(1)}</span><span class="label">近 7 天平均（/10）</span></div>
+    <div class="streak-stat"><span class="num">${state.history[state.history.length-1].date.split("-").slice(1).join("-")}</span><span class="label">最近一条</span></div>
+  `;
+}
+
+function renderSparklines() {
+  const wrap = $("#spark-grid");
+  if (state.history.length < 1) {
+    wrap.innerHTML = `<div class="card" style="grid-column: 1/-1; padding: 28px; text-align: center; color: var(--muted);">
+      暂无趋势数据。请先保存几次今日记录后再回来查看。
+    </div>`;
+    return;
+  }
+
+  // last 14 entries
+  const recent = state.history.slice(-14);
+  wrap.innerHTML = METRICS.map(m => {
+    const values = recent.map(h => h.metrics[m.id]).filter(v => typeof v === "number");
+    if (values.length === 0) {
+      return `<div class="spark-cell">
+        <div class="spark-head"><span class="spark-name">${m.label}</span><span class="spark-current empty">—</span></div>
+        <div style="font-size: 11px; color: var(--muted);">无数据</div>
+      </div>`;
+    }
+    const last = values[values.length - 1];
+    const unit = m.unit || "";
+    let trend = "flat", trendArrow = "—";
+    if (values.length >= 3) {
+      const first = values.slice(0, Math.ceil(values.length / 2)).reduce((s,v) => s+v, 0) / Math.ceil(values.length/2);
+      const second = values.slice(Math.ceil(values.length / 2)).reduce((s,v) => s+v, 0) / Math.floor(values.length/2);
+      const diff = second - first;
+      const meaningful = Math.abs(diff) > (m.max - m.min) * 0.05;
+      if (!meaningful) { trend = "flat"; trendArrow = "→"; }
+      else if (diff > 0) {
+        trend = m.dir === "high" ? "up" : "down";
+        trendArrow = m.dir === "high" ? "↗ 进步" : "↘ 倒退";
+      } else {
+        trend = m.dir === "high" ? "down" : "up";
+        trendArrow = m.dir === "high" ? "↘ 倒退" : "↗ 进步";
+      }
+    }
+    return `<div class="spark-cell">
+      <div class="spark-head">
+        <span class="spark-name">${m.label}</span>
+        <span class="spark-current">${last}<span style="font-size: 10px; color: var(--muted);">${unit}</span></span>
+      </div>
+      ${renderSparkSvg(values, m)}
+      <div class="spark-foot">
+        <span>${values.length} 天</span>
+        <span class="spark-trend ${trend}">${trendArrow}</span>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function renderSparkSvg(values, m) {
+  const W = 280, H = 36, PAD = 2;
+  if (values.length === 0) return "";
+  const min = m.min, max = m.max;
+  const xStep = values.length > 1 ? (W - PAD*2) / (values.length - 1) : 0;
+  const y = v => H - PAD - ((v - min) / (max - min)) * (H - PAD*2);
+  const points = values.map((v, i) => [PAD + i*xStep, y(v)]);
+  const linePath = points.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+  const areaPath = linePath + ` L${(PAD + (values.length-1)*xStep).toFixed(1)},${H-PAD} L${PAD},${H-PAD} Z`;
+  const dots = points.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="1.5" class="dot"/>`).join("");
+  const baseY = y((min + max) / 2);
+  return `<svg class="spark-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+    <line x1="0" y1="${baseY.toFixed(1)}" x2="${W}" y2="${baseY.toFixed(1)}" class="baseline"/>
+    <path d="${areaPath}" class="area"/>
+    <path d="${linePath}" class="line"/>
+    ${dots}
+  </svg>`;
+}
+
+// ============================================================
+// LIBRARY
+// ============================================================
+
+function renderLibFilters() {
+  const wrap = $("#lib-filters");
+  wrap.innerHTML = CATEGORIES.map(c =>
+    `<button class="chip ${c === state.selectedCat ? 'active' : ''}" data-cat="${c}">${c}</button>`
+  ).join("");
+  $$(".chip", wrap).forEach(b => {
+    b.addEventListener("click", () => {
+      state.selectedCat = b.dataset.cat;
+      renderLibFilters();
+      renderLibTable();
+    });
+  });
+}
+
+function renderLibTable() {
+  const q = state.searchQuery.trim().toLowerCase();
+  const filtered = EXERCISES.filter(e => {
+    if (state.selectedCat !== "全部" && e.cat !== state.selectedCat) return false;
+    if (!q) return true;
+    return [e.name, e.target, e.how, e.cat].some(s => s.toLowerCase().includes(q));
+  });
+  const wrap = $("#lib-table");
+  if (filtered.length === 0) {
+    wrap.innerHTML = `<div class="lib-empty">没有匹配的动作</div>`;
+    return;
+  }
+  wrap.innerHTML = `
+    <div class="lib-row header">
+      <div>#</div>
+      <div>动作 · 做法</div>
+      <div>解决</div>
+      <div>频率</div>
+    </div>
+    ${filtered.map(e => `
+      <div class="lib-row">
+        <div class="col-num">${pad2(e.n)}</div>
+        <div class="col-name">
+          <span class="cat-tag">${e.cat}</span>${e.name}
+          <span class="how">${e.how}</span>
+          <a href="${e.url}" target="_blank" rel="noopener">Source ↗</a>
+        </div>
+        <div class="col-target">${e.target}</div>
+        <div class="col-freq">${e.freq}</div>
+      </div>
+    `).join("")}
+  `;
+}
+
+// ============================================================
+// PLAN TAB
+// ============================================================
+
+function renderPlan() {
+  // problems
+  $("#problems").innerHTML = PROBLEMS.map(p => `
+    <div class="problem-card">
+      <div class="n">问题 ${p.n}</div>
+      <div class="name">${p.name}</div>
+      <div class="diag">${p.diag}</div>
+    </div>`).join("");
+
+  // weeks
+  $("#week-grid").innerHTML = WEEKS.map((w, i) => `
+    <button class="week-tab ${i === state.selectedWeek ? 'active' : ''}" data-wk="${i}">
+      <div class="wk">${w.wk}</div>
+      <div class="name">${w.name}</div>
+      <div class="dur">${w.dur}</div>
+    </button>`).join("");
+  $$(".week-tab").forEach(b => {
+    b.addEventListener("click", () => {
+      state.selectedWeek = parseInt(b.dataset.wk, 10);
+      renderPlan();
+    });
+  });
+  $("#week-detail").innerHTML = WEEKS[state.selectedWeek].body.map(p => `<p>${p}</p>`).join("");
+
+  // rotation
+  $("#rotation-body").innerHTML = ROTATION.map(r =>
+    `<tr><td>${r.d}</td><td>${r.c}</td><td>${r.t}</td></tr>`
+  ).join("");
+
+  // resources
+  $("#res-list").innerHTML = RESOURCES.map(r => `
+    <a href="${r.url}" target="_blank" rel="noopener">
+      <span class="pri">${r.pri}</span>
+      <span class="label">${r.name}<span class="desc">${r.desc}</span></span>
+    </a>`).join("");
+}
+
+// ============================================================
+// EXPORT TAB
+// ============================================================
+
+async function renderStorageStatus() {
+  const wrap = $("#storage-status");
+  await loadHistory();
+  const keys = await storeList("tracker:");
+  const haveStorage = !!window.storage;
+  wrap.innerHTML = `
+    Storage 可用: <span style="color: ${haveStorage ? '#2d6a4f' : 'var(--danger)'};">${haveStorage ? '✓ 是' : '✗ 否（数据无法持久化）'}</span><br>
+    追踪记录数: <strong>${state.history.length}</strong> 天<br>
+    最早记录: ${state.history.length ? state.history[0].date : '—'}<br>
+    最近记录: ${state.history.length ? state.history[state.history.length-1].date : '—'}<br>
+    存储 keys: ${keys.length}
+  `;
+}
+
+function downloadFile(filename, content, mime = "text/plain") {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function exportJson() {
+  await loadHistory();
+  const payload = {
+    exportedAt: new Date().toISOString(),
+    appVersion: "1.0",
+    entries: state.history
+  };
+  downloadFile(`voice-training-backup-${todayKey()}.json`, JSON.stringify(payload, null, 2), "application/json");
+  showToast("✓ JSON 已下载");
+}
+
+function exportMarkdown() {
+  const md = buildPlanMarkdown();
+  downloadFile(`voice-training-plan-${todayKey()}.md`, md, "text/markdown");
+  showToast("✓ Markdown 已下载");
+}
+
+function buildPlanMarkdown() {
+  let md = `# 45 分钟每日发声训练方案\n\n`;
+  md += `> 基于自渡鹏鹏 200+ 篇内容、ASHA / J Voice / Cochrane 循证研究、中传播音教材整合而成。\n\n`;
+  md += `## 五大问题与诊断\n\n`;
+  PROBLEMS.forEach(p => md += `- **${p.name}** — ${p.diag}\n`);
+  md += `\n## 每日 8 模块（45 分钟）\n\n`;
+  let cum = 0;
+  MODULES_FULL.forEach((m, i) => {
+    md += `### ${i+1}. ${m.name} (${Math.floor(m.duration/60)} min)\n${m.target}\n\n`;
+    m.steps.forEach(s => md += `- ${s}\n`);
+    md += "\n";
+    cum += m.duration;
+  });
+  md += `\n## 4 周渐进\n\n`;
+  WEEKS.forEach(w => {
+    md += `### ${w.wk} · ${w.name} (${w.dur})\n`;
+    w.body.forEach(p => md += `${p.replace(/<\/?em>/g, "*")}\n\n`);
+  });
+  md += `\n## 每周声母轮换\n\n`;
+  md += `| 周 | 声母 | 绕口令 / 朗读 |\n|---|---|---|\n`;
+  ROTATION.forEach(r => md += `| ${r.d} | ${r.c} | ${r.t} |\n`);
+  md += `\n## 31 个核心动作\n\n`;
+  md += `| # | 类别 | 动作 | 解决 | 做法 | 频率 | 链接 |\n|---|---|---|---|---|---|---|\n`;
+  EXERCISES.forEach(e => md += `| ${e.n} | ${e.cat} | ${e.name} | ${e.target} | ${e.how} | ${e.freq} | ${e.url} |\n`);
+  md += `\n## 必读资源\n\n`;
+  RESOURCES.forEach(r => md += `- ${r.pri} [${r.name}](${r.url}) — ${r.desc}\n`);
+  return md;
+}
+
+async function importJson(file) {
+  const text = await file.text();
+  let parsed;
+  try {
+    parsed = JSON.parse(text);
+  } catch (e) {
+    showToast("文件格式错误");
+    return;
+  }
+  if (!parsed.entries || !Array.isArray(parsed.entries)) {
+    showToast("无效的备份文件");
+    return;
+  }
+  if (!confirm(`即将恢复 ${parsed.entries.length} 条记录。这会覆盖现有数据。继续？`)) return;
+  // clear existing tracker entries first
+  const existing = await storeList("tracker:");
+  for (const k of existing) await storeDel(k);
+  // restore
+  for (const e of parsed.entries) {
+    if (!e.date) continue;
+    await storeSet(`tracker:${e.date}`, JSON.stringify(e));
+  }
+  await loadHistory();
+  await loadTodayEntry();
+  renderTrackerForm();
+  renderSparklines();
+  renderStreak();
+  renderStorageStatus();
+  showToast(`✓ 已恢复 ${parsed.entries.length} 条记录`);
+}
+
+async function clearAllData() {
+  if (!confirm("即将删除所有追踪数据。建议先点'导出 JSON'备份。确认清空？")) return;
+  if (!confirm("再次确认：所有自评记录都会被永久删除，无法恢复。")) return;
+  const keys = await storeList("tracker:");
+  for (const k of keys) await storeDel(k);
+  state.history = [];
+  state.todayMetrics = {};
+  METRICS.forEach(m => state.todayMetrics[m.id] = m.default);
+  renderTrackerForm();
+  renderSparklines();
+  renderStreak();
+  renderStorageStatus();
+  showToast("已清空全部数据");
+}
+
+// ============================================================
+// INIT / TAB ROUTING
+// ============================================================
+
+function switchTab(name) {
+  state.currentTab = name;
+  $$(".panel").forEach(p => p.classList.toggle("active", p.id === name));
+  $$("nav.tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
+  if (name === "tracker") {
+    renderStreak();
+    renderSparklines();
+  }
+  if (name === "export") {
+    renderStorageStatus();
+  }
+}
+
+function setDateLine() {
+  const d = new Date();
+  const dayNames = ["日", "一", "二", "三", "四", "五", "六"];
+  $("#date-line").textContent = `${d.getFullYear()}.${pad2(d.getMonth()+1)}.${pad2(d.getDate())} · 周${dayNames[d.getDay()]}`;
+}
+
+async function init() {
+  setDateLine();
+
+  // tabs
+  $$("nav.tabs button").forEach(b => {
+    b.addEventListener("click", () => switchTab(b.dataset.tab));
+  });
+
+  // timer
+  $("#btn-start").addEventListener("click", () => {
+    if (state.running) pauseTimer();
+    else startTimer();
+  });
+  $("#btn-prev").addEventListener("click", () => {
+    pauseTimer();
+    if (state.currentModuleIdx > 0) loadModule(state.currentModuleIdx - 1);
+    else loadModule(0);
+  });
+  $("#btn-next").addEventListener("click", () => {
+    pauseTimer();
+    if (state.currentModuleIdx < state.modules.length - 1) {
+      loadModule(state.currentModuleIdx + 1);
+    } else {
+      // already at last - just reset
+    }
+  });
+  $("#btn-reset").addEventListener("click", resetTimer);
+
+  // settings
+  $("#opt-chime").addEventListener("change", (e) => state.opts.chime = e.target.checked);
+  $("#opt-speak").addEventListener("change", (e) => state.opts.speak = e.target.checked);
+  $("#opt-autonext").addEventListener("change", (e) => state.opts.autonext = e.target.checked);
+  $("#opt-variant").addEventListener("change", (e) => changeVariant(e.target.value));
+
+  // tracker
+  $("#btn-save-entry").addEventListener("click", saveEntry);
+  $("#btn-load-yesterday").addEventListener("click", loadYesterday);
+
+  // library
+  $("#lib-search").addEventListener("input", (e) => {
+    state.searchQuery = e.target.value;
+    renderLibTable();
+  });
+
+  // export
+  $("#btn-export-json").addEventListener("click", exportJson);
+  $("#btn-export-md").addEventListener("click", exportMarkdown);
+  $("#btn-import-json").addEventListener("click", () => $("#file-input").click());
+  $("#file-input").addEventListener("change", (e) => {
+    const f = e.target.files[0];
+    if (f) importJson(f);
+    e.target.value = ""; // reset
+  });
+  $("#btn-clear").addEventListener("click", clearAllData);
+
+  // initial renders
+  renderTimer();
+  renderPlan();
+  renderLibFilters();
+  renderLibTable();
+
+  // load today's saved entry if any
+  await loadTodayEntry();
+  renderTrackerForm();
+  await loadHistory();
+  renderSparklines();
+  renderStreak();
+}
+
+document.addEventListener("DOMContentLoaded", init);
+
+// keyboard shortcuts
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.target.tagName === "TEXTAREA") return;
+  if (state.currentTab !== "today") return;
+  if (e.code === "Space") {
+    e.preventDefault();
+    if (state.running) pauseTimer();
+    else startTimer();
+  } else if (e.code === "ArrowRight") {
+    pauseTimer();
+    if (state.currentModuleIdx < state.modules.length - 1) loadModule(state.currentModuleIdx + 1);
+  } else if (e.code === "ArrowLeft") {
+    pauseTimer();
+    if (state.currentModuleIdx > 0) loadModule(state.currentModuleIdx - 1);
+  }
+});
+
+</script>
+
+</body>
+</html>
